@@ -1,4 +1,4 @@
-<? get_header(); ?>
+<?php get_header(); ?>
 <div class="coach-wrapper " data-coach="<?php echo get_the_author_meta('ID'); ?>">
         <div class = "container">
             <div class = "row">
