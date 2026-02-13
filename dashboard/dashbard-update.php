@@ -138,6 +138,15 @@ wp_localize_script('availability-calendar','availabilityData',[
 
 
 <?php
+// If post exists, make sure current user is the author
+if ($coach_post_id && $coach_post_id !== 'new_post') {
+    wp_update_post([
+        'ID' => $coach_post_id,
+        'post_author' => get_current_user_id(),
+    ]);
+}
+
+
 acf_form(array(
     'post_id' => $coach_post_id,
     'new_post' => $coach_post_id === 'new_post' ? array(

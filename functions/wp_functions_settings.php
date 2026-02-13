@@ -56,6 +56,23 @@ function restrict_media_library_to_current_user( $query ) {
 }
 add_filter('ajax_query_attachments_args', 'restrict_media_library_to_current_user');
 
+// Ensure custom roles can edit their own posts and upload files
+add_action('init', function () {
+
+    $roles = ['coach', 'player', 'court'];
+
+    foreach ($roles as $role_name) {
+        $role = get_role($role_name);
+
+        if ($role) {
+            $role->add_cap('upload_files');
+            $role->add_cap('edit_posts');
+            $role->add_cap('edit_published_posts');
+        }
+    }
+});
+
+
 
 /**
  * Redirect logged-in users to a specific page
