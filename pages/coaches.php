@@ -1,0 +1,99 @@
+<?php 
+// Template Name: Coaches 
+
+get_header(); ?>
+<div class = "coaches-wrapper">
+    <div class="top-header-page" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/top-heading.jpg');">
+        <h1><?php echo get_the_title();?></h1>
+    </div>
+    <div class = "coach-inner-wrapper">
+        <div class = "container">
+        <div class = "row">
+            <?php 
+                
+                    $args = array(
+                        'post_type'      => 'coach',
+                        'posts_per_page' => -1,
+                        'post_status'    => 'publish',
+                    );
+
+                    $query = new WP_Query($args);
+
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post();
+
+                        $nickname = get_field('nick_name');
+                        $featured_image = get_field('featured_image');
+                        $hourly = get_field('hourly_rate');
+                        $city = get_field('city');
+
+                    ?>
+                    <div class = "col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                      <a href = "<?php echo get_the_permalink(); ?>">
+                        <div class = "coach-card">
+                            <div class = "image-wrapper">
+                                <?php 
+                                     $default = get_stylesheet_directory_uri().'/img/dummy_1024x1024_ffffff_cccccc.jpg';
+                        
+                                if($featured_image) {
+                                    echo '<img src = "'.$featured_image['sizes']['large'].'" class = "img-fluid" alt = "'.$featured_image['alt'].'">';
+                                }else {
+                                        echo '<img src = "'.$default.'" class = "img-fluid" alt = "default">';
+                                }
+                                ?>
+                            </div>
+                            <div class = "coach-information">
+                                <div class = "name-wrapper">
+                                    <h4><?php echo $nickname; ?></h4>
+                                    <h4>&#8369; <?php echo $hourly; ?>/hour</h4>
+                                </div>
+                                <div class = "about-wrapper">
+                                     <i class="fa fa-quote-left" aria-hidden="true"></i>
+ Life's short, book the flight, come and make memories with me.<i class="fa fa-quote-right" aria-hidden="true"></i>
+
+                                </div>
+                                <div class = "review">
+                                    <div class = "count">
+                                        <div class = "number-count">
+                                            <h5>Reviews</h5>
+                                            <h6>25</h6>
+                                        </div>
+                                        <div class = "rating">
+                                            <h5>Rating</h5>
+                                            <?php
+                                                $rating = 3.5; // dynamic value (1–5, supports .5)
+
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($rating >= $i) {
+                                                        echo '<span class="star full">★</span>';
+                                                    } elseif ($rating >= ($i - 0.5)) {
+                                                        echo '<span class="star half">★</span>';
+                                                    } else {
+                                                        echo '<span class="star empty">★</span>';
+                                                    }
+                                                }
+                                                ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div> <!--card closed -->
+                        </a>
+                    </div>       
+                    <?php
+                        endwhile;
+                        wp_reset_postdata();
+                    else :
+                        echo '<p>No posts found</p>';
+                    endif;
+                    ?>
+
+            
+        
+        </div>
+    </div>
+    </div>
+</div>
+
+<?php get_footer(); ?>
