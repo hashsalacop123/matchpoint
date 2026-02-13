@@ -96,11 +96,19 @@ add_action('update_post_meta', function($meta_id, $post_id, $meta_key, $meta_val
 
 }, 10, 4);
 
-// Save ACF JSON in the theme folder
-add_filter('acf/settings/save_json', function($path) {
-    // Path to your theme's acf-json folder
-    $path = get_stylesheet_directory() . '/acf-json';
-    return $path;
+add_action('after_setup_theme', function () {
+
+    // Save ACF JSON inside theme
+    add_filter('acf/settings/save_json', function ($path) {
+        return get_stylesheet_directory() . '/acf-json';
+    });
+
+    // Load ACF JSON from theme
+    add_filter('acf/settings/load_json', function ($paths) {
+        $paths[] = get_stylesheet_directory() . '/acf-json';
+        return $paths;
+    });
+
 });
 
 
