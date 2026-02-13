@@ -7,7 +7,7 @@
                 <div class = "row align-items-center">
                     <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-6">
                         <div class = "inner-page-logo">
-                             <a href = "https://tingbook.local/"><img src = "<?php echo get_stylesheet_directory_uri(); ?>/img/match-point-logo-transparent.png" class = "img-fluid"></a>
+                             <a href = "<?php echo esc_url( home_url( '/' ) ); ?>"><img src = "<?php echo get_stylesheet_directory_uri(); ?>/img/match-point-logo-transparent.png" class = "img-fluid"></a>
                         </div>
                     
                      </div>
