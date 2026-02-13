@@ -213,10 +213,11 @@ $error   = '';
 </div>
 
             <!-- Submit Button -->
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-3 flex-class">
                 <button type="submit" name="register_user" class="btn btn-primary w-30">
                     Register
                 </button>
+                <a href = "/login">Login</a>
             </div>
 
         </div>

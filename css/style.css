@@ -513,3 +513,86 @@ ul.service-availability {
     height: 100vh;
     overflow-y: auto;
 }
+.flex-class a {
+    color: #fff;
+    padding-left: 10px;
+    text-decoration: underline;
+}.banner-pages {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    position:relative;
+    color:#fff;
+}.banner-pages h1 {
+    font-weight: 600;
+    font-size: 50px;
+}
+
+.banner-pages p {
+    font-size: 22px;
+}.banner-pages::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(31, 79, 76, 0.583),
+        rgba(31, 79, 76, 0.56)
+    );
+    z-index: 1;
+}
+.banner-pages .container {
+    position: relative;
+    z-index: 2;
+}section.who-we-are-wrapper {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+section.who-we-are-wrapper h2 {
+    color: #1e6366;
+    line-height: 50px;
+    font-weight: 600;
+}
+section.who-we-are-wrapper img {
+    border-radius: 35px;
+}
+ul.our-mission-list li img {
+    width: 55px;
+    height: 55px;
+}ul.our-mission-list {
+    padding-left: 0px;
+}section.our-mission {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background: #e9ebea;
+}
+
+section.our-mission img {
+    border-radius: 30px;
+}section.our-mission h2 {
+    color: #1e6366;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+ul.our-mission-list li {
+    background: #f3f3f3;
+    margin-top: 20px;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+}
+.colab h4 {
+    font-size: 20px;
+    color: #1e6366;
+}
+

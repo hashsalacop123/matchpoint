@@ -36,7 +36,7 @@
     border: 1px;
     color: #fff;
     border-radius: 15px;
-    padding: 9px !important;
+    padding: 3px !important;
 }
 .acf-image-uploader input {
     padding: 0px ! Important;
@@ -170,4 +170,8 @@ div#geocoder
     background: #a6d3d5;
     color: red;
     font-weight: bold;
+}
+.registration-form button {
+    background: #1e6366;
+    color: #fff;
 }
