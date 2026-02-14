@@ -214,7 +214,7 @@ $error   = '';
 
             <!-- Submit Button -->
             <div class="col-12 mt-3 flex-class">
-                <button type="submit" name="register_user" class="btn btn-primary w-30">
+                <button type="submit" name="register_user" class="btn w-30">
                     Register
                 </button>
                 <a href = "/login">Login</a>

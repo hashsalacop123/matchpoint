@@ -33,11 +33,88 @@ if ( $current_user_id ) {
     </div>
     <!-- CONTTENT START HERE -->
     <div class = "col-xl-9 col-lg-9 col-md-9 col-sm-12">
+        <h4>Bookings</h4>
+        <?php 
+        $current_user_id = get_current_user_id();
 
-<div id="geocoder"></div>
-<div id="map" style="height:400px;"></div>
-    <?php echo 'test';?>
-    </div>
+$args = [
+    'post_type'      => 'booking',
+    'posts_per_page' => -1,
+    'meta_query'     => [
+        [
+            'key'     => 'coach__services',
+            'value'   => $current_user_id,
+            'compare' => '='
+        ]
+    ]
+];
+
+$bookings = get_posts($args);
+if ($bookings) {
+?>
+   <table id="bookings" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time Start</th>
+                <th>Time End</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+         <tbody>
+<?php
+    foreach ($bookings as $booking) {
+
+        $name   = get_field('guest_name', $booking->ID);
+        $email  = get_field('guest_email', $booking->ID);
+        $date   = get_field('date_booked', $booking->ID);
+        $start  = get_field('time_start', $booking->ID);
+        $end    = get_field('time_end', $booking->ID);
+        $amount = get_field('amount', $booking->ID);
+        $status = get_field('booking_status', $booking->ID); 
+
+            $status_color = '';
+
+            if($status == 'approved') {
+            $status_color = 'approved-color';
+            }else if($status == 'pending') {
+            $status_color = 'pending-color';
+            }else {
+            $status_color = 'reject-color';
+            } 
+
+        
+        ?>
+        
+
+             <tr>
+                <td><?php echo esc_html($name); ?></td>
+                <td class = "date-booked"><?php echo esc_html($date); ?></td>
+                <td><?php echo esc_html($start); ?></td>
+                <td><?php echo esc_html($end); ?></td>
+                <td><?php echo esc_html($email); ?></td>
+                <td>&#x20B1; <?php echo esc_html($amount); ?></td>
+                <td><span class = "<?php echo $status_color; ?>"><?php echo esc_html($status); ?></td>
+                <td class = "button-action"><button class = "btn btn-primary">Action</button></td>
+            </tr>
+
+
+    <?php }
+echo ' </tbody>';
+echo '</table>';
+
+} else {
+    echo '<p>No bookings yet.</p>';
+}
+
+        ?>
+        
+    
+    </div> <!--container of col-xl-9-->
 </div>
 
     </div>

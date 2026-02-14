@@ -207,7 +207,7 @@
             },
             "choices": {
                 "pending": "Pending",
-                "reject": "Reject",
+                "rejected": "Rejected",
                 "approved": "Approved"
             },
             "default_value": "pending",
@@ -246,5 +246,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1770817199
+    "modified": 1771050715
 }

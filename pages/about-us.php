@@ -76,9 +76,46 @@ get_header(); ?>
 
         <ul class = "programs-ul">
             <li class = "progrmas-li">
-                
-
-
+                <img src = "<?php echo get_template_directory_uri().'/img/promotion.png' ?>">
+                <div class = "programs-list">
+                    <h5>Beginner Lessons</h5>
+                    <p>Introductory coaching for new players of all ages.</p>
+                </div>
+            </li>
+            <li class = "progrmas-li">
+                <img src = "<?php echo get_template_directory_uri().'/img/newbie.png' ?>">
+                <div class = "programs-list">
+                    <h5>Youth Development</h5>
+                    <p>IStructured programs designed for young athletes.</p>
+                </div>
+            </li>
+            <li class = "progrmas-li">
+                <img src = "<?php echo get_template_directory_uri().'/img/mentorship.png' ?>">
+                <div class = "programs-list">
+                    <h5>Private Coaching</h5>
+                    <p>One-on-one sessions focused on personal improvement.</p>
+                </div>
+            </li>
+            <li class = "progrmas-li">
+                <img src = "<?php echo get_template_directory_uri().'/img/meeting.png' ?>">
+                <div class = "programs-list">
+                    <h5>Group Clinics</h5>
+                    <p>IFun and engaging training in small group settings.</p>
+                </div>
+            </li>
+            <li class = "progrmas-li">
+                <img src = "<?php echo get_template_directory_uri().'/img/booking.png' ?>">
+                <div class = "programs-list">
+                    <h5>Court Booking</h5>
+                    <p>Easy and flexible online court reservations.</p>
+                </div>
+            </li>
+            <li class = "progrmas-li">
+                <img src = "<?php echo get_template_directory_uri().'/img/diversity.png' ?>">
+                <div class = "programs-list">
+                    <h5>Community Events</h5>
+                    <p>Social matches, tournaments, and local tennis activities.</p>
+                </div>
             </li>
         </ul>
     </div>

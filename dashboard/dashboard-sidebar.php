@@ -10,7 +10,7 @@ if ( in_array( 'player', (array) $user->roles ) ) {
 } elseif ( in_array( 'coach', (array) $user->roles ) ) { ?>
 
  <ul>
-        <li><a href = "/dashboard/"><i class="fa fa-volume-up" aria-hidden="true"></i> Dashboard</a></li>
+        <li><a href = "/dashboard/"><i class="fa fa-volume-up"></i> Dashboard</a></li>
         <li><a href = "/my-account/"><i class="fa fa-user-circle" aria-hidden="true"></i> Information</a></li>
         <li><a href = "/update/"><i class="far fa-edit"></i> Profile</a></li>
         <li>

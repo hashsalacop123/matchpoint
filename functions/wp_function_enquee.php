@@ -37,6 +37,36 @@ function theme_enqueue_styles() {
 
     // JS Libraries
     // Replace the old Alpha 6 link with this stable 4.6 link
+     if ( is_page('dashboard') ) {
+
+        // DataTables CSS
+        wp_enqueue_style(
+            'datatables-css',
+            'https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css',
+            array(),
+            '2.3.7'
+        );
+
+        // DataTables JS
+        wp_enqueue_script(
+            'datatables-js',
+            'https://cdn.datatables.net/2.3.7/js/dataTables.min.js',
+            array('jquery'), // dependency
+            '2.3.7',
+            true // load in footer
+        );
+        // Inline initialization script
+        $datatable_init = "
+            Object.assign(DataTable.defaults, {
+                searching: false,
+                ordering: false
+            });
+
+            new DataTable('#bookings');
+        ";
+
+        wp_add_inline_script('datatables-js', $datatable_init);
+    }
 wp_enqueue_style('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css');
 wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js', ['jquery'], null, true);
     wp_enqueue_script('sweetalert','https://cdn.jsdelivr.net/npm/sweetalert2@11', ['jquery'], null, true);

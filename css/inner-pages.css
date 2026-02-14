@@ -152,11 +152,11 @@ div#geocoder
     margin-top:20px;
     border: 2px solid #1e6366;
 }
-.btn-primary {
+/* .btn-primary {
    color: #1e6366;
     background-color: #1e636600;
     border-color: #1e6366;
-}
+} */
 .btn-primary:hover {
     color: #fff;
     background-color: #9dc6c8;
