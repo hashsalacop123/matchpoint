@@ -48,7 +48,7 @@ function restrict_media_library_to_current_user( $query ) {
             // Admins can still see everything
             if ( current_user_can('manage_options') ) {
                 unset($query['author']);
-            }
+            } 
         }
     }
 
