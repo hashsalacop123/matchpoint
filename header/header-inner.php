@@ -18,7 +18,7 @@
                                 <li><a href = "#">Home</a></li>
                                 <li><a href = "/court/">Court</a></li>
                                 <li><a href = "/coaches/">Coaches</a></li>
-                                <li><a href = "/availability/">Sponsor</a></li>
+                                <li><a href = "/gallery/">Gallery</a></li>
                                 <li><a href = "/about-us/">About Us</a></li>
                                 <li><a href = "/contact-us/">Contact us</a></li>
 

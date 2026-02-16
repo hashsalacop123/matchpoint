@@ -81,3 +81,86 @@ add_action('acf/save_post', function ($post_id) {
     }
 
 });
+
+// THIS FUNCTIONS IS TO UPDATE THE STATUS IN THE DASBOARD
+
+// Handle AJAX booking status update
+function update_booking_status() {
+
+    // Verify nonce for security
+    check_ajax_referer('booking_nonce', 'nonce');
+
+    // Get current user
+    $current_user_id = get_current_user_id();
+
+    // Get posted values
+    $booking_id = intval($_POST['booking_id']);
+    $status     = sanitize_text_field($_POST['status']);
+
+    // Validate booking ID
+    if (!$booking_id) {
+        wp_send_json_error('Invalid booking.');
+    }
+
+    // Allowed statuses only
+    $allowed_statuses = ['pending', 'approved', 'rejected'];
+    if (!in_array($status, $allowed_statuses)) {
+        wp_send_json_error('Invalid status.');
+    }
+
+    // SECURITY: Make sure this booking belongs to the logged-in coach
+  $coach_field = get_field('coach__services', $booking_id);
+
+        // Normalize coach ID
+        $coach_id = 0;
+
+        if (is_array($coach_field) && isset($coach_field['ID'])) {
+            $coach_id = $coach_field['ID'];
+        } elseif (is_object($coach_field) && isset($coach_field->ID)) {
+            $coach_id = $coach_field->ID;
+        } else {
+            $coach_id = intval($coach_field);
+        }
+
+        // Security check
+        if ($coach_id !== $current_user_id) {
+            wp_send_json_error('Unauthorized.');
+        }
+
+    // Update ACF field
+    update_field('booking_status', $status, $booking_id);
+
+    // -----------------------------
+    // Send email to the guest
+    // -----------------------------
+    $guest_email = get_field('guest_email', $booking_id);
+    $guest_name  = get_field('guest_name', $booking_id);
+    $date        = get_field('date_booked', $booking_id);
+    $start       = get_field('time_start', $booking_id);
+    $end         = get_field('time_end', $booking_id);
+
+    if ($guest_email) {
+
+        $subject = 'Your Booking Status Has Been Updated';
+
+        $message = "
+        Hi {$guest_name},
+
+        Your booking status has been updated.
+
+        Booking Details:
+        Date: {$date}
+        Time: {$start} - {$end}
+        Status: " . ucfirst($status) . "
+
+        Thank you.
+        ";
+
+        $headers = ['Content-Type: text/plain; charset=UTF-8'];
+
+        wp_mail($guest_email, $subject, $message, $headers);
+    }
+
+    wp_send_json_success('Status updated.');
+}
+add_action('wp_ajax_update_booking_status', 'update_booking_status');

@@ -67,8 +67,15 @@ function theme_enqueue_styles() {
 
         wp_add_inline_script('datatables-js', $datatable_init);
     }
-wp_enqueue_style('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css');
-wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js', ['jquery'], null, true);
+      // Dashboard script
+    
+    wp_localize_script('general-script', 'booking_ajax', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('booking_nonce')
+    ]);
+
+    wp_enqueue_style('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css');
+    wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js', ['jquery'], null, true);
     wp_enqueue_script('sweetalert','https://cdn.jsdelivr.net/npm/sweetalert2@11', ['jquery'], null, true);
     wp_enqueue_script('mapbox-gl-js','https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js', ['jquery'], null, false);
     wp_enqueue_script('slick-slider-js','//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', ['jquery'], null, true);
@@ -79,7 +86,7 @@ wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/d
 
     // Theme JS
     wp_enqueue_script('user-js', get_stylesheet_directory_uri() . '/js/user.js', ['jquery'], null, true);
-    wp_enqueue_script('general-script', get_stylesheet_directory_uri() . '/js/general.js', ['jquery'], null, true);
+    wp_enqueue_script('general-script', get_stylesheet_directory_uri() . '/js/general.js', ['jquery','sweetalert'], null, true);
     wp_enqueue_script('jquery-script', get_stylesheet_directory_uri() . '/js/jquery-script.js', ['jquery'], null, true);
 
     wp_localize_script(
@@ -89,6 +96,11 @@ wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/d
         'token' => MAPBOX_TOKEN
     )
 );
+  wp_localize_script('general-script', 'booking_ajax', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('booking_nonce')
+    ]);
+
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
 
@@ -152,7 +164,6 @@ function enqueue_coach_booking_calendar() {
         'ajaxurl'  => admin_url('admin-ajax.php'),
         'coach_id' => get_the_ID(),
     ]);
-
 
 
 }
