@@ -195,7 +195,7 @@ foreach ($booking_posts as $booking) {
     });
 
     $timezone = new DateTimeZone('Asia/Manila'); 
-    echo '<ul class="step-1-wrapper slider-calendar" data-rate="'.$clean_rate.'">';
+    echo '<ul id = "booknow" class="step-1-wrapper slider-calendar" data-rate="'.$clean_rate.'">';
     
     foreach ($dates as $date) {
         $start = new DateTime($date['start']);

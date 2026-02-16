@@ -12,6 +12,12 @@ function theme_enqueue_styles() {
         [],
         '5.15.4'
     );
+        wp_enqueue_style(
+        'fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
+        [],
+        '6.5.0'
+    );
 
     wp_enqueue_style(
         'google-fonts',

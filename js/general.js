@@ -118,6 +118,25 @@ jQuery('.open-booking-modal').length
 
     });
 
+jQuery(document).ready(function ($) {
+
+    $('#sampleAccordion').on('show.bs.collapse', function (e) {
+        $(e.target)
+            .prev('.card-header')
+            .find('.toggle-icon')
+            .removeClass('fa-plus')
+            .addClass('fa-minus');
+    });
+
+    $('#sampleAccordion').on('hide.bs.collapse', function (e) {
+        $(e.target)
+            .prev('.card-header')
+            .find('.toggle-icon')
+            .removeClass('fa-minus')
+            .addClass('fa-plus');
+    });
+
+});
 
 
 

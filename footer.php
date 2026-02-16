@@ -22,51 +22,72 @@
     <div class = "footer-wrapper inner-footer">
         <div class = "container">
                 <div class="row">
-                    <div class = "col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-12">
                         <div class = "footer-first-column footer-column">
-                            <h5>About us</h5>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-
+                            <h5>Quick Links</h5>
+                                <ul>
+                                    <li><a href = "/about-us/">About Us</a></li>
+                                    <li><a href = "/contact-us/">Contact Us</a></li>
+                                    <li><a href = "/court/">Court</a></li>
+                                    <li><a href = "/coaches/">Coaches</a></li>
+                                    <li><a href = "/coaches/">Blogs</a></li>
+                                </ul>
  </p>
                         </div>
                     </div>
-                    <div class = "col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-12">
                         <div class = "footer-second-column footer-column">
-                            <h5>Quick Links</h5>
+                            <h5>Contact info</h5>
                                 <ul>
-                                    <li><a href = "#">About Us</a></li>
-                                    <li><a href = "#">Contact Us</a></li>
-                                    <li><a href = "#">FAQ</a></li>
-                                    <li><a href = "#">Sitemap</a></li>
-                                </ul>
+                        <li>
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <a href = "tel:+639215369904">+0921-536-9904</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <a href = "mailto:Matchpointtennis@outlook.ph
+ ">Matchpointtennis@outlook.ph</a>
+
+                        </li>
+                          <li>
+                            <i class="fa-solid fa-map-pin"></i>
+                            IT Park, Lahug, Cebu City
+                        </li>
+                        </ul>
                         </div>
                     </div>
-                    <div class = "col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-12">
                         <div class = "footer-third-column footer-column">
-                            <h5>Latest News</h5>
-                                <ul>
-                                    <li><a href = "#">Tips about Pickleball</a></li>
-                                    <li><a href = "#">Cebu City Player</a></li>
-                                    <li><a href = "#">You Need to know</a></li>
-                                    <li><a href = "#">Player in cebu</a></li>
-                                </ul>
+                            <h5>Follow Us</h5>
+                                <ul class = "social-media">
+                                <li><a href = "https://www.facebook.com/MatchpointTennisAcad/" target = "_blank"><i class="fa-brands fa-facebook"></i></a></li>
+                                <li><a href = "https://www.youtube.com/@matchpointtenniscebu" target = "_blank"><i class="fa-brands fa-youtube"></i>
+                                    </a></li>
+                                <li><a href = "https://www.instagram.com/mptenniscebu" target = "_blank"><i class="fa-brands fa-square-instagram"></i>
+                                    </a></li>
+                                <li><a href = "hhttps://www.tiktok.com/@matchpointtenniscebu" target = "_blank"><i class="fa-brands fa-tiktok"></i>
+                                    </a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class = "col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-12">
                         <div class = "footer-third-column footer-column">
                             <h5>Subscribe</h5>
                             <?php echo do_shortcode('[contact-form-7 id="a120c20"]'); ?>
                         </div>
                     </div>
-                    <div class = "col-xl-12 col-lg-12 col-md-12">
-                        <div class = "divider-sp">
-                            <hr>
-                        </div>
-                    </div>
-                    <div class = "col-sm-12 col-md-12 text-center">
-                    <p class = "copy-right-bottom-text">&copy; <?php echo date('Y'); ?> test123 Match Point. All rights reserved, All Right Reserved | Designed By <a href="https://hashcrafter.com/">hashcrafter</a></p>
-                    </div>
+                 
                 </div>
+        </div>
+    </div>
+    <div class = "bottom-container">
+        <div class = "container">
+            <div class = "row">
+                
+                    <div class = "col-sm-12 col-md-12 text-center">
+                    <p class = "copy-right-bottom-text">&copy; <?php echo date('Y'); ?>  Match Point. All rights reserved, All Right Reserved | Designed By <a href="https://hashcrafter.com/">hashcrafter</a></p>
+                    </div>
+            </div>
         </div>
     </div>
 </footer>

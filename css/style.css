@@ -79,18 +79,18 @@ ul.user-services li a {
     flex-direction: column;
     justify-content: space-between; /* optional: push button to bottom */
 }.inner-footer {
-    background: #1e6366;
+    background: #dbdce1;
     padding-top: 30px;
     padding-bottom: 30px;
 }
 
 p.copy-right-bottom-text {
     margin-bottom: 0px;
-    color: #fff;
+    color: #2a3037;
 }
 
 .inner-footer a {
-    color: #ffffff;
+    color: #2a3037;
 }
 
 .footer-column img {
@@ -98,7 +98,7 @@ p.copy-right-bottom-text {
 }
 
 .footer-column {
-    color: #fff;
+    color: #2a3037;
 }
 
 .footer-column ul {
@@ -112,7 +112,8 @@ p.copy-right-bottom-text {
 
 .footer-first-column {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 27px;
+    font-weight: 700;
 }.divider-sp hr {
     background: #1e6366;
 }
@@ -229,11 +230,29 @@ ul.service-availability {
     color: #fff;
     font-weight: bold;
 }
-
+.footer-second-column {
+    line-height: 33px;
+    font-weight: 500;
+}
 .user-wrapper a span {
     text-transform: capitalize;
 }
+.footer-third-column ul {
+    display: flex;
+}
 
+.footer-third-column ul i {
+    font-size: 23px;
+}
+
+.footer-third-column ul li:first-child {
+    padding-left: 0px!important;
+}
+
+.footer-third-column ul li {
+    padding-left: 15px;
+    padding-top: 10px;
+}
 /* Fix button appearance in Bootstrap 4 */
 .fc .fc-button-primary {
     background-color: #1e6366 !important; /* Standard Bootstrap Blue */
@@ -751,4 +770,175 @@ span.pending-color {
     width: 100%;
     margin-bottom: 10px;
     padding: 8px;
+}section.icons-container {
+    background: #e9e9ea;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+.data-contant ul {
+    display: flex;
+    justify-content: space-between;
+    background: #f0eff2;
+    padding-left: 0px;
+    list-style: none;
+    text-align: center;
+    padding: 25px;
+    border-radius: 10px;
+}ul.social-media {
+    padding: 0px;
+    box-shadow: inherit;
+}
+
+.data-contant h4 {
+    color: #1e6366;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+.data-contant i {
+    font-size: 30px;
+    color: #1e6366;
+}
+
+.data-contant a {
+    color: #000;
+}
+
+
+ul.social-media li {
+    padding-left: 10px;
+}
+
+i.fa-brands.fa-facebook {
+    color: #1877F2;
+}
+
+
+i.fa-brands.fa-youtube {
+    color: #FF0000;
+}
+
+i.fa-brands.fa-square-instagram {
+    background: linear-gradient(
+  45deg,
+  #833AB4,
+  #E1306C,
+  #F77737,
+  #FCAF45
+);
+    color: white;
+}
+
+i.fa-brands.fa-tiktok {
+    color: #000000;
+}section.faq-wrapper {
+    background: #dadddf;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}section.faq-wrapper h5 button {
+    color: #1e6366;
+    font-size: 23px;
+}
+
+section.faq-wrapper {
+    background: #dadddf;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}section.faq-wrapper .card {
+    margin-top: 15px;
+}.btn-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+    text-decoration: none;
+    color: #1e6366;
+}section.faq-wrapper h3 {
+    color: #1e6366;
+    line-height: 50px;
+    font-weight: 600;
+}.data-banner-member {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    padding-left:20px;
+    padding-right:20px;
+    border-radius: 20px;
+}.data-banner-member h3 {
+    color: #fff!important;
+    z-index: 99;
+    text-align: center;
+}
+.data-banner-member::before {
+    border-radius: 20px;
+}
+.data-banner-member a {
+    text-align: center;
+    background: #ddba7b;
+    z-index: 99;
+    color: #000000;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    border-radius: 20px;;
+    
+}
+.data-banner-member::before {
+    
+    background: linear-gradient(rgb(31 79 76 / 97%), rgba(31, 79, 76, 0.56));
+
+}.footer-third-column .wpcf7-text {
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid #ffff;
+}
+
+.footer-third-column input.wpcf7-form-control {
+    border: 1px solid #fff;
+    padding: 5px 20px;
+    border-radius: 20px;
+}
+
+.bottom-container {
+    background: #1e6366;
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+
+.bottom-container p {
+    color: #fff;
+}
+
+.bottom-container a {
+    color: #fff;
+}
+
+.gallery-img-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 ratio – change if needed */
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.gallery-img-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.nav-tabs {
+    border-bottom: 0px solid #dee2e6;
+}ul#galleryTabs li a {
+    color: #000;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}ul#galleryTabs li {
+    background: #bfcfd2;
+    margin-left: 10px;
+    border: 0px solid;
+    border-radius: 4px;
 }
