@@ -49,7 +49,17 @@ get_header(); ?>
                                 </div>
                                 <div class = "about-wrapper">
                                      <i class="fa fa-quote-left" aria-hidden="true"></i>
- Life's short, book the flight, come and make memories with me.<i class="fa fa-quote-right" aria-hidden="true"></i>
+                                 <?php
+$about_me = get_field('about_me');
+
+if ($about_me) {
+
+    // Limit to 400 characters
+    $short_text = mb_substr(strip_tags($about_me), 0, 80);
+
+     echo esc_html($short_text) . '...';
+}
+?><i class="fa fa-quote-right" aria-hidden="true"></i>
 
                                 </div>
                                 <div class = "review">

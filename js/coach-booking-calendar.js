@@ -84,41 +84,47 @@
             // $('.total-label').text('₱' + total.toLocaleString());
         }
 
-        $('#confirm_booking_btn').on('click', function(e) {
-            e.preventDefault();
-            
-            const bookingData = {
-                 action: 'handle_coach_booking',
-                    name: $('#booking_name').val(),
-                    email: $('#booking_email').val(),
-                    start: $('#booking_start').val(),
-                    end: $('#booking_end').val(),
-                    date: $('#selected_date').val(), 
-                    comment: $('#booking_comment').val(),
-                    amount: $('#amount').val(),
-                    coach_id: coachBookingData.coach_id
-            };
-console.log(bookingData);
+ $('#confirm_booking_btn').on('click', function(e) {
+    e.preventDefault();
+    
+    const bookingData = {
+        action: 'handle_coach_booking',
+        name: $('#booking_name').val(),
+        email: $('#booking_email').val(),
+        start: $('#booking_start').val(),
+        end: $('#booking_end').val(),
+        date: $('#selected_date').val(), 
+        comment: $('#booking_comment').val(),
+        amount: $('#amount').val(),
+        coach_id: coachBookingData.coach_id
+    };
 
-            $.ajax({
-                url: '/wp-admin/admin-ajax.php',
-                type: 'POST',
-                data: bookingData,
-                beforeSend: function() {
-                    $('#confirm_booking_btn').prop('disabled', true).text('Working...');
-                },
-                success: function(response) {
-                    alert('Booking sent successfully!');
-                        location.reload();
+    console.log(bookingData);
 
-                    $('#bookingModal').modal('hide');
-                    $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
-                },
-                error: function() {
-                    alert('Error submitting booking.');
-                    $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
-                }
-            });
-        });         
+    $.ajax({
+        url: '/wp-admin/admin-ajax.php',
+        type: 'POST',
+        data: bookingData,
+        beforeSend: function() {
+            $('#confirm_booking_btn').prop('disabled', true).text('Redirecting to GCash...');
+        },
+  success: function(response) {
+
+    console.log('AJAX response:', response);
+
+    if (response.success && response.data && response.data.checkout_url) {
+window.open(response.data.checkout_url, 'gcash_payment', 'width=500,height=700');
+    } else {
+        alert('Payment link not returned.');
+        $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
+    }
+},
+        error: function() {
+            alert('Error submitting booking.');
+            $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
+        }
+    });
+});
+        
     });
 })(jQuery);

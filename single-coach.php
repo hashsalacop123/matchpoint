@@ -38,12 +38,15 @@ if ( ! empty( $featured_image ) ) {
                           $sports = get_field('sports');
 
                           echo '<h1>'.$nickname.'</h1>';
-                            echo '<ul>';
-                                    foreach($sports as $sport) {
-                                        echo '<li>'.$sport->name.'</li>';
-                                      
-                                    }
-                            echo '</ul>';
+                         if (!empty($sports) && is_array($sports)) {
+    echo '<ul>';
+
+    foreach ($sports as $sport) {
+        echo '<li>' . esc_html($sport->name) . '</li>';
+    }
+
+    echo '</ul>';
+}
                      
                         echo '<div class = "additional-information-coach">';
                          echo '<div>';     
@@ -316,7 +319,8 @@ foreach ($slots as $time_val) {
 
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" id="confirm_booking_btn" class="btn btn-primary">Confirm Booking</button>
+                <button type="button" id="Reserved" class="btn btn-info">Reserv</button>
+                <button type="button" id="confirm_booking_btn" class="btn btn-primary">Pay Now</button>
             </div>
         </div>
     </div>
