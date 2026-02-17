@@ -73,6 +73,12 @@
                     <div class = "col-xl-3 col-lg-3 col-md-3 col-sm-12">
                         <div class = "footer-third-column footer-column">
                             <h5>Subscribe</h5>
+                            <?php 
+                                $subscribe = get_field('option','subsriptions');
+
+                                echo $subscribe;
+                            
+                            ?>
                             <?php echo do_shortcode('[contact-form-7 id="a120c20"]'); ?>
                         </div>
                     </div>

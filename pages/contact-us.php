@@ -27,7 +27,18 @@ get_header(); ?>
                     <div class = "form-container">
                         <h2>Get in Touch</h2>
                         <div class = "contact-form-wrapper">
-                        <?php echo do_shortcode('[contact-form-7 id="455a464" title="Contact us"]'); ?>
+                        <?php if (have_posts()) : ?>
+                            
+                            <?php while (have_posts()) : the_post(); ?>
+                                
+                                
+                                <div class="post-content">
+                                    <?php the_content(); ?>
+                                </div>
+
+                            <?php endwhile; ?>
+
+                        <?php endif; ?>
                         </div>
 
                     </div>
