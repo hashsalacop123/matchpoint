@@ -79,7 +79,6 @@
                                 echo $subscribe;
                             
                             ?>
-                            <?php echo do_shortcode('[contact-form-7 id="a120c20"]'); ?>
                         </div>
                     </div>
                  
