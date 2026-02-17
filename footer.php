@@ -74,9 +74,13 @@
                         <div class = "footer-third-column footer-column">
                             <h5>Subscribe</h5>
                             <?php 
-                                $subscribe = get_field('option','subsriptions');
+                             $subscribe = get_field('subsriptions', 'option');
 
-                                echo $subscribe;
+if (!empty($subscribe)) {
+    echo do_shortcode($subscribe);
+}
+
+
                             
                             ?>
                         </div>
