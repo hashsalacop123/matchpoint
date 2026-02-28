@@ -319,7 +319,7 @@ foreach ($slots as $time_val) {
 
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" id="Reserved" class="btn btn-info">Reserv</button>
+                <button type="button" id="Reserved" class="btn btn-info">Reserve</button>
                 <button type="button" id="confirm_booking_btn" class="btn btn-primary">Pay Now</button>
             </div>
         </div>
