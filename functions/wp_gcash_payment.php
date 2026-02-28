@@ -114,9 +114,18 @@ add_filter('query_vars', function($vars) {
 });
 
 
+add_action('rest_api_init', function () {
+    register_rest_route('paymongo/v1', '/webhook', [
+        'methods'  => 'POST',
+        'callback' => 'handle_paymongo_webhook',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
 function handle_paymongo_webhook($request) {
 
-    // Debug log
+    error_log('Webhook triggered');
+
     file_put_contents(
         WP_CONTENT_DIR . '/webhook-debug.txt',
         'Webhook hit at: ' . current_time('mysql') . "\n",
