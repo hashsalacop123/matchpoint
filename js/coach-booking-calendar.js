@@ -113,7 +113,7 @@
     console.log('AJAX response:', response);
 
     if (response.success && response.data && response.data.checkout_url) {
-window.open(response.data.checkout_url, 'gcash_payment', 'width=500,height=700');
+window.location.href = response.data.checkout_url;
     } else {
         alert('Payment link not returned.');
         $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');

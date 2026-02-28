@@ -15,20 +15,43 @@ add_action('template_redirect', function () {
 
     $event_type = $data['data']['attributes']['type'] ?? '';
 
-    if ($event_type === 'link.payment.paid') {
+if ($event_type === 'link.payment.paid') {
 
-        $payment_data = $data['data']['attributes']['data']['attributes'];
-        $remarks = $payment_data['remarks'] ?? '';
+    $payment_data = $data['data']['attributes']['data']['attributes'];
+    $remarks = $payment_data['remarks'] ?? '';
+    $amount_paid = $payment_data['amount'] ?? 0;
 
-        preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
+    preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
 
-        if (!empty($matches[1])) {
-            $booking_id = intval($matches[1]);
+    if (!empty($matches[1])) {
 
-            // Change status after payment
-            update_post_meta($booking_id, 'booking_status', 'approved');
+        $booking_id = intval($matches[1]);
+
+        // Make sure booking exists
+        if (get_post_type($booking_id) !== 'booking') {
+            status_header(400);
+            exit('Invalid booking');
         }
+
+        // Prevent double approval
+        $current_status = get_field('booking_status', $booking_id);
+        if ($current_status === 'approved') {
+            status_header(200);
+            exit('Already approved');
+        }
+
+        // OPTIONAL: Validate amount matches
+        $expected_amount = get_field('amount', $booking_id) * 100;
+
+        if ($expected_amount != $amount_paid) {
+            status_header(400);
+            exit('Amount mismatch');
+        }
+
+        // Approve booking
+        update_field('booking_status', 'approved', $booking_id);
     }
+}
 
     status_header(200);
     echo 'Webhook received';
@@ -85,6 +108,21 @@ function create_paymongo_gcash_payment($amount, $description, $booking_id) {
 
     return $body['data']['attributes']['checkout_url'] ?? false;
 }
+add_filter('query_vars', function($vars) {
+    $vars[] = 'paymongo_webhook';
+    return $vars;
+});
 
 
+function handle_paymongo_webhook($request) {
+
+    // Debug log
+    file_put_contents(
+        WP_CONTENT_DIR . '/webhook-debug.txt',
+        'Webhook hit at: ' . current_time('mysql') . "\n",
+        FILE_APPEND
+    );
+
+    return new WP_REST_Response(['ok' => true], 200);
+}
 ?>
