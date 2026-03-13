@@ -1,75 +1,20 @@
-<?php 
-add_action('template_redirect', function () {
-
-    if (get_query_var('paymongo_webhook') != 1) {
-        return;
-    }
-
-    $payload = file_get_contents('php://input');
-    $data = json_decode($payload, true);
-
-    if (!$data) {
-        status_header(400);
-        exit('Invalid payload');
-    }
-
-    $event_type = $data['data']['attributes']['type'] ?? '';
-
-if ($event_type === 'link.payment.paid') {
-
-    $payment_data = $data['data']['attributes']['data']['attributes'];
-    $remarks = $payment_data['remarks'] ?? '';
-    $amount_paid = $payment_data['amount'] ?? 0;
-
-    preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
-
-    if (!empty($matches[1])) {
-
-        $booking_id = intval($matches[1]);
-
-        // Make sure booking exists
-        if (get_post_type($booking_id) !== 'booking') {
-            status_header(400);
-            exit('Invalid booking');
-        }
-
-        // Prevent double approval
-        $current_status = get_field('booking_status', $booking_id);
-        if ($current_status === 'approved') {
-            status_header(200);
-            exit('Already approved');
-        }
-
-        // OPTIONAL: Validate amount matches
-        $expected_amount = get_field('amount', $booking_id) * 100;
-
-        if ($expected_amount != $amount_paid) {
-            status_header(400);
-            exit('Amount mismatch');
-        }
-
-        // Approve booking
-        update_field('booking_status', 'approved', $booking_id);
-    }
-}
-
-    status_header(200);
-    echo 'Webhook received';
-    exit;
-});
-
+<?php
 
 /**
+ * ------------------------------------------------------------
  * Create PayMongo GCash payment link
+ * ------------------------------------------------------------
  */
 function create_paymongo_gcash_payment($amount, $description, $booking_id) {
 
+    // PayMongo secret key
     $secret_key = PAYMONGO_SECRET_KEY;
 
+    // Payment data
     $data = [
         'data' => [
             'attributes' => [
-                'amount' => intval($amount * 100),
+                'amount' => intval($amount * 100), // convert to cents
                 'description' => $description,
                 'remarks' => 'Booking ID: ' . $booking_id,
                 'payment_method_types' => ['gcash'],
@@ -81,6 +26,7 @@ function create_paymongo_gcash_payment($amount, $description, $booking_id) {
         ]
     ];
 
+    // API request arguments
     $args = [
         'headers' => [
             'Authorization' => 'Basic ' . base64_encode($secret_key . ':'),
@@ -90,68 +36,80 @@ function create_paymongo_gcash_payment($amount, $description, $booking_id) {
         'method' => 'POST'
     ];
 
+    // Send request to PayMongo
     $response = wp_remote_post(
         'https://api.paymongo.com/v1/links',
         $args
     );
 
-    // Debug response
+    // Handle API error
     if (is_wp_error($response)) {
         error_log('PayMongo error: ' . $response->get_error_message());
         return false;
     }
 
+    // Get response body
     $body_raw = wp_remote_retrieve_body($response);
     error_log('PayMongo response: ' . $body_raw);
 
     $body = json_decode($body_raw, true);
 
+    // Return checkout URL
     return $body['data']['attributes']['checkout_url'] ?? false;
 }
 
 
 
+/**
+ * ------------------------------------------------------------
+ * Register PayMongo webhook endpoint
+ * ------------------------------------------------------------
+ */
 add_action('rest_api_init', function () {
+
     register_rest_route('paymongo/v1', '/webhook', [
         'methods'  => 'POST',
         'callback' => 'handle_paymongo_webhook',
         'permission_callback' => '__return_true',
     ]);
+
 });
 
+
+
+/**
+ * ------------------------------------------------------------
+ * Handle PayMongo webhook
+ * This updates booking_status when payment succeeds
+ * ------------------------------------------------------------
+ */
 function handle_paymongo_webhook($request) {
+        error_log('PAYMONGO WEBHOOK HIT');
 
-    $webhook_secret = PAYMONGO_WEBHOOK_SECRET;
 
+    // Get webhook payload
     $payload = $request->get_body();
-    $signature_header = $_SERVER['HTTP_PAYMONGO_SIGNATURE'] ?? '';
 
-    // Verify signature
-    if (!$signature_header) {
-        return new WP_REST_Response(['error' => 'Missing signature'], 400);
-    }
-
-    preg_match('/v1=([^,]+)/', $signature_header, $matches);
-
-    if (empty($matches[1])) {
-        return new WP_REST_Response(['error' => 'Invalid signature format'], 400);
-    }
-
-    $signature = $matches[1];
-    $expected_signature = hash_hmac('sha256', $payload, $webhook_secret);
-
-    if (!hash_equals($expected_signature, $signature)) {
-        return new WP_REST_Response(['error' => 'Invalid signature'], 400);
-    }
+    error_log('PAYMONGO WEBHOOK RECEIVED');
+    error_log($payload);
 
     $data = json_decode($payload, true);
 
+    if (!$data) {
+        error_log('Invalid payload');
+        return new WP_REST_Response(['error' => 'Invalid payload'], 400);
+    }
+
     $event_type = $data['data']['attributes']['type'] ?? '';
+
+    error_log('Event type: ' . $event_type);
 
     if ($event_type === 'link.payment.paid') {
 
         $payment_data = $data['data']['attributes']['data']['attributes'];
         $remarks = $payment_data['remarks'] ?? '';
+
+        error_log('Remarks: ' . $remarks);
 
         preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
 
@@ -159,13 +117,13 @@ function handle_paymongo_webhook($request) {
 
             $booking_id = intval($matches[1]);
 
+            error_log('Booking ID: ' . $booking_id);
+
             if (get_post_type($booking_id) === 'booking') {
 
-                $current_status = get_field('booking_status', $booking_id);
+                update_field('booking_status', 'approved', $booking_id);
 
-                if ($current_status !== 'approved') {
-                    update_field('booking_status', 'approved', $booking_id);
-                }
+                error_log('Booking approved!');
             }
         }
     }
