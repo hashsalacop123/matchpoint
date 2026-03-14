@@ -130,7 +130,7 @@ function handle_paymongo_webhook($request) {
 
                     // Get booking fields
                     $name  = get_field('name', $booking_id);
-                    $email = get_field('email', $booking_id);
+                    $email = get_field('guest_email', $booking_id);
                     $date  = get_field('date_booked', $booking_id);
                     $start = get_field('time_start', $booking_id);
                     $end   = get_field('time_end', $booking_id);

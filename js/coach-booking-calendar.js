@@ -108,12 +108,23 @@
         beforeSend: function() {
             $('#confirm_booking_btn').prop('disabled', true).text('Redirecting to GCash...');
         },
-  success: function(response) {
+success: function(response) {
 
     console.log('AJAX response:', response);
 
     if (response.success && response.data && response.data.checkout_url) {
-window.open(response.data.checkout_url, '_blank');
+
+        // Open PayMongo in new tab
+        window.open(response.data.checkout_url, '_blank');
+
+        // Change button text
+        $('#confirm_booking_btn').text('Waiting for payment...');
+
+        // Refresh page after a few seconds
+        setTimeout(function(){
+            location.reload();
+        }, 15000); // 15 seconds
+
     } else {
         alert('Payment link not returned.');
         $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
