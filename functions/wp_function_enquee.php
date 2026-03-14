@@ -136,13 +136,8 @@ function enqueue_availability_calendar() {
     wp_enqueue_script('fullcalendar','https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js',['jquery'],null,true);
 
     // Your availability JS
- wp_enqueue_script(
-        'availability-calendar',
-        get_stylesheet_directory_uri() . '/js/availability-calendar.js',
-        ['jquery','fullcalendar'],
-        filemtime(get_stylesheet_directory() . '/js/availability-calendar.js'),
-        true
-    );
+    wp_enqueue_script('availability-calendar', get_stylesheet_directory_uri() . '/js/availability-calendar.js', ['jquery','fullcalendar'], null, true);
+
     // Note: DO NOT localize here; localize in template after $coach_post_id is defined
 }
 add_action('wp_enqueue_scripts','enqueue_availability_calendar');
@@ -180,17 +175,17 @@ function enqueue_coach_booking_calendar() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_coach_booking_calendar');
 
-/**
- * Remove version query strings from enqueued CSS and JS
- */
-function remove_css_js_version( $src ) {
-    if ( strpos( $src, '?ver=' ) ) {
-        $src = remove_query_arg( 'ver', $src );
-    }
-    return $src;
-}
+// /**
+//  * Remove version query strings from enqueued CSS and JS
+//  */
+// function remove_css_js_version( $src ) {
+//     if ( strpos( $src, '?ver=' ) ) {
+//         $src = remove_query_arg( 'ver', $src );
+//     }
+//     return $src;
+// }
 
-add_filter( 'style_loader_src', 'remove_css_js_version', 10, 1 );
-add_filter( 'script_loader_src', 'remove_css_js_version', 10, 1 );
+// add_filter( 'style_loader_src', 'remove_css_js_version', 10, 1 );
+// add_filter( 'script_loader_src', 'remove_css_js_version', 10, 1 );
 
 ?>
