@@ -119,12 +119,46 @@ function handle_paymongo_webhook($request) {
 
             error_log('Booking ID: ' . $booking_id);
 
-            if (get_post_type($booking_id) === 'booking') {
+                if (get_post_type($booking_id) === 'booking') {
 
-                update_field('booking_status', 'approved', $booking_id);
+                    // Update booking status
+                    update_field('booking_status', 'approved', $booking_id);
 
-                error_log('Booking approved!');
-            }
+                    /**
+                     * Send confirmation email after payment
+                     */
+
+                    // Get booking fields
+                    $name  = get_field('name', $booking_id);
+                    $email = get_field('email', $booking_id);
+                    $date  = get_field('date_booked', $booking_id);
+                    $start = get_field('time_start', $booking_id);
+                    $end   = get_field('time_end', $booking_id);
+
+                    // Email subject
+                    $subject = 'Your Booking is Confirmed';
+
+                    // Email message
+                    $message = "
+                    Hi {$name},
+
+                    Your booking has been successfully confirmed.
+
+                    Booking Details:
+                    Date: {$date}
+                    Time: {$start} - {$end}
+
+                    Thank you for your payment.
+
+                    Regards,
+                    MatchPoint
+                    ";
+
+                    // Send email
+                    wp_mail($email, $subject, $message);
+
+                    error_log('Booking approved and email sent!');
+                }
         }
     }
 

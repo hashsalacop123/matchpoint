@@ -113,7 +113,7 @@
     console.log('AJAX response:', response);
 
     if (response.success && response.data && response.data.checkout_url) {
-window.location.href = response.data.checkout_url;
+window.open(response.data.checkout_url, '_blank');
     } else {
         alert('Payment link not returned.');
         $('#confirm_booking_btn').prop('disabled', false).text('Confirm Booking');
