@@ -3,6 +3,27 @@
     "title": "Booking",
     "fields": [
         {
+            "key": "field_69b4dcac1cb5a",
+            "label": "Reference",
+            "name": "paymongo_reference",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_698b50991f423",
             "label": "Guest Name",
             "name": "guest_name",
@@ -246,5 +267,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1771050715
+    "modified": 1773460688
 }

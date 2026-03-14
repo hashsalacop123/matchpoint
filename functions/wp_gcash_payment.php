@@ -84,10 +84,9 @@ add_action('rest_api_init', function () {
  * ------------------------------------------------------------
  */
 function handle_paymongo_webhook($request) {
-        error_log('PAYMONGO WEBHOOK HIT');
 
+    error_log('PAYMONGO WEBHOOK HIT');
 
-    // Get webhook payload
     $payload = $request->get_body();
 
     error_log('PAYMONGO WEBHOOK RECEIVED');
@@ -104,12 +103,15 @@ function handle_paymongo_webhook($request) {
 
     error_log('Event type: ' . $event_type);
 
+
+    /* ---------------------------
+       PAYMENT SUCCESS
+    --------------------------- */
+
     if ($event_type === 'link.payment.paid') {
 
         $payment_data = $data['data']['attributes']['data']['attributes'];
         $remarks = $payment_data['remarks'] ?? '';
-
-        error_log('Remarks: ' . $remarks);
 
         preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
 
@@ -119,50 +121,99 @@ function handle_paymongo_webhook($request) {
 
             error_log('Booking ID: ' . $booking_id);
 
-                if (get_post_type($booking_id) === 'booking') {
+            if (get_post_type($booking_id) === 'booking') {
 
-                    // Update booking status
-                    update_field('booking_status', 'approved', $booking_id);
+                update_field('booking_status', 'approved', $booking_id);
 
-                    /**
-                     * Send confirmation email after payment
-                     */
+                // Save reference
+                $reference = $payment_data['reference_number'] ?? '';
 
-                    // Get booking fields
-                    $name  = get_field('name', $booking_id);
-                    $email = get_field('guest_email', $booking_id);
-                    $date  = get_field('date_booked', $booking_id);
-                    $start = get_field('time_start', $booking_id);
-                    $end   = get_field('time_end', $booking_id);
+                if (!empty($reference)) {
+                    update_field('paymongo_reference', $reference, $booking_id);
+                    error_log('Saved PayMongo reference: ' . $reference);
+                }
 
-                    // Email subject
+                $name  = get_field('name', $booking_id);
+                $email = get_field('guest_email', $booking_id);
+                $date  = get_field('date_booked', $booking_id);
+                $start = get_field('time_start', $booking_id);
+                $end   = get_field('time_end', $booking_id);
+
+                if (!empty($email)) {
+
                     $subject = 'Your Booking is Confirmed';
 
-                    // Email message
                     $message = "
-                    Hi {$name},
+Hi {$name},
 
-                    Your booking has been successfully confirmed.
+Your booking has been successfully confirmed.
 
-                    Booking Details:
-                    Date: {$date}
-                    Time: {$start} - {$end}
+Booking Details:
+Date: {$date}
+Time: {$start} - {$end}
 
-                    Thank you for your payment.
+Reference Number: {$reference}
 
-                    Regards,
-                    MatchPoint
-                    ";
+Thank you for your payment.
 
-                    // Send email
+Regards,
+MatchPoint
+";
+
                     wp_mail($email, $subject, $message);
 
                     error_log('Booking approved and email sent!');
                 }
+            }
+        }
+    }
+
+
+    /* ---------------------------
+       PAYMENT FAILED
+    --------------------------- */
+
+    if ($event_type === 'link.payment.failed') {
+
+        $payment_data = $data['data']['attributes']['data']['attributes'];
+        $remarks = $payment_data['remarks'] ?? '';
+
+        preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
+
+        if (!empty($matches[1])) {
+
+            $booking_id = intval($matches[1]);
+
+            if (get_post_type($booking_id) === 'booking') {
+
+                update_field('booking_status', 'rejected', $booking_id);
+
+                $email = get_field('guest_email', $booking_id);
+                $name  = get_field('name', $booking_id);
+
+                if (!empty($email)) {
+
+                    $subject = 'Payment Failed';
+
+                    $message = "
+Hi {$name},
+
+Unfortunately your payment for the booking did not go through.
+
+Please try again by returning to the booking page.
+
+Regards,
+MatchPoint
+";
+
+                    wp_mail($email, $subject, $message);
+
+                    error_log('Payment failed email sent for booking: ' . $booking_id);
+                }
+            }
         }
     }
 
     return new WP_REST_Response(['received' => true], 200);
 }
-
 ?>

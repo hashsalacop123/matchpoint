@@ -62,6 +62,7 @@ get_header();
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Reference</th>
                                 <th>Date</th>
                                 <th>Time Start</th>
                                 <th>Time End</th>
@@ -76,6 +77,7 @@ get_header();
                             foreach ($bookings as $booking) {
 
                                 $name   = get_field('guest_name', $booking->ID);
+                                $reference   = get_field('paymongo_reference', $booking->ID);
                                 $email  = get_field('guest_email', $booking->ID);
                                 $date   = get_field('date_booked', $booking->ID);
                                 $start  = get_field('time_start', $booking->ID);
@@ -95,6 +97,7 @@ get_header();
                             ?>
                                 <tr>
                                     <td><?php echo esc_html($name); ?></td>
+                                     <td><?php echo esc_html($reference); ?></td>
                                     <td class="date-booked"><?php echo esc_html($date); ?></td>
                                     <td><?php echo esc_html($start); ?></td>
                                     <td><?php echo esc_html($end); ?></td>
