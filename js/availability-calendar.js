@@ -1,4 +1,5 @@
 jQuery(document).ready(function($) {
+    console.log("NEW CALENDAR SCRIPT LOADED");
     if (typeof FullCalendar === 'undefined') return;
     if (typeof availabilityData === 'undefined') return;
 
