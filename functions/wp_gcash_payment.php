@@ -104,13 +104,15 @@ function handle_paymongo_webhook($request) {
     error_log('Event type: ' . $event_type);
 
 
-    /* ---------------------------
+    /* ==========================
        PAYMENT SUCCESS
-    --------------------------- */
+    ========================== */
 
     if ($event_type === 'link.payment.paid') {
 
         $payment_data = $data['data']['attributes']['data']['attributes'];
+        error_log(print_r($payment_data, true));
+
         $remarks = $payment_data['remarks'] ?? '';
 
         preg_match('/Booking ID:\s*(\d+)/', $remarks, $matches);
@@ -123,27 +125,34 @@ function handle_paymongo_webhook($request) {
 
             if (get_post_type($booking_id) === 'booking') {
 
-                update_field('booking_status', 'approved', $booking_id);
+                // Prevent duplicate approval
+                $current_status = get_field('booking_status', $booking_id);
 
-                // Save reference
-                $reference = $payment_data['reference_number'] ?? '';
+                if ($current_status !== 'approved') {
 
-                if (!empty($reference)) {
-                    update_field('paymongo_reference', $reference, $booking_id);
-                    error_log('Saved PayMongo reference: ' . $reference);
-                }
+                    update_field('booking_status', 'approved', $booking_id);
 
-                $name  = get_field('name', $booking_id);
-                $email = get_field('guest_email', $booking_id);
-                $date  = get_field('date_booked', $booking_id);
-                $start = get_field('time_start', $booking_id);
-                $end   = get_field('time_end', $booking_id);
+                    // Safely capture reference number
+                    $reference = '';
 
-                if (!empty($email)) {
+                    if (!empty($payment_data['reference_number'])) {
+                        $reference = $payment_data['reference_number'];
+                        update_field('paymongo_reference', $reference, $booking_id);
+                        error_log('Saved PayMongo reference: ' . $reference);
+                    }
 
-                    $subject = 'Your Booking is Confirmed';
+                    // Booking info
+                    $name  = get_field('name', $booking_id);
+                    $email = get_field('guest_email', $booking_id);
+                    $date  = get_field('date_booked', $booking_id);
+                    $start = get_field('time_start', $booking_id);
+                    $end   = get_field('time_end', $booking_id);
 
-                    $message = "
+                    if (!empty($email)) {
+
+                        $subject = 'Your Booking is Confirmed';
+
+                        $message = "
 Hi {$name},
 
 Your booking has been successfully confirmed.
@@ -160,20 +169,23 @@ Regards,
 MatchPoint
 ";
 
-                    wp_mail($email, $subject, $message);
+                        wp_mail($email, $subject, $message);
 
-                    error_log('Booking approved and email sent!');
+                        error_log('Booking approved and email sent!');
+                    }
+
                 }
+
             }
         }
     }
 
 
-    /* ---------------------------
+    /* ==========================
        PAYMENT FAILED
-    --------------------------- */
+    ========================== */
 
-    if ($event_type === 'link.payment.failed') {
+    if ($event_type === 'payment.failed') {
 
         $payment_data = $data['data']['attributes']['data']['attributes'];
         $remarks = $payment_data['remarks'] ?? '';
