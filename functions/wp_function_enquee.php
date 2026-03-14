@@ -136,8 +136,13 @@ function enqueue_availability_calendar() {
     wp_enqueue_script('fullcalendar','https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js',['jquery'],null,true);
 
     // Your availability JS
-    wp_enqueue_script('availability-calendar', get_stylesheet_directory_uri() . '/js/availability-calendar.js', ['jquery','fullcalendar'], null, true);
-
+ wp_enqueue_script(
+        'availability-calendar',
+        get_stylesheet_directory_uri() . '/js/availability-calendar.js',
+        ['jquery','fullcalendar'],
+        filemtime(get_stylesheet_directory() . '/js/availability-calendar.js'),
+        true
+    );
     // Note: DO NOT localize here; localize in template after $coach_post_id is defined
 }
 add_action('wp_enqueue_scripts','enqueue_availability_calendar');
