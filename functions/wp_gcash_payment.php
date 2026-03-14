@@ -142,11 +142,11 @@ function handle_paymongo_webhook($request) {
                     }
 
                     // Booking info
-                    $name  = get_field('name', $booking_id);
-                    $email = get_field('guest_email', $booking_id);
-                    $date  = get_field('date_booked', $booking_id);
-                    $start = get_field('time_start', $booking_id);
-                    $end   = get_field('time_end', $booking_id);
+                    $name  = get_post_meta($booking_id, 'guest_name', true);
+                    $email = get_post_meta($booking_id, 'guest_email', true);
+                    $date  = get_post_meta($booking_id, 'date_booked', true);
+                    $start = get_post_meta($booking_id, 'time_start', true);
+                    $end   = get_post_meta($booking_id, 'time_end', true);
 
                     if (!empty($email)) {
 
