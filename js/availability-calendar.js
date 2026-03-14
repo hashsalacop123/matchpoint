@@ -77,17 +77,35 @@ var bookingEvents = availabilityData.booking_events || [];
         slotDuration: '01:00:00', // <-- 1 hour slots
 
 events: existingEvents.concat(bookingEvents),
-        select: function(info) {
-            var note = prompt('Note (Optional):');
-            calendar.addEvent({
-                start: info.startStr,
-                end: info.endStr,
-                title: note ? note : 'Available',
-                extendedProps: { note: note || '' }
-            });
-            calendar.unselect();
-            syncToACF();
-        },
+ select: function(info) {
+
+    var note = prompt('Note (Optional):');
+
+    var start = new Date(info.start);
+    var end = new Date(info.end);
+
+    // loop each day in the range
+    while (start < end) {
+
+        var dayStart = new Date(start);
+        dayStart.setHours(6,0,0,0);
+
+        var dayEnd = new Date(start);
+        dayEnd.setHours(22,0,0,0);
+
+        calendar.addEvent({
+            start: dayStart,
+            end: dayEnd,
+            title: note ? note : 'Available',
+            extendedProps: { note: note || '' }
+        });
+
+        start.setDate(start.getDate() + 1);
+    }
+
+    calendar.unselect();
+    syncToACF();
+},
         eventClick: function(info) {
             if(confirm('Remove this slot?')) {
                 info.event.remove();

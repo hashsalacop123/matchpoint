@@ -145,6 +145,7 @@ function expire_coach_booking_callback($booking_id) {
             "The pending booking for $guest_name has expired. The time slot is now available again."
         );
     }
+    
 }
 
 

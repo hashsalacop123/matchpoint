@@ -2,8 +2,24 @@
 <?php 
 $datacoach = get_field('avalability');
 $dates = json_decode($datacoach, true);
-$dates = json_decode($datacoach, true);
+// remove duplicate ranges (safety guard)
+$unique = [];
+$seen = [];
 
+foreach ($dates as $event) {
+
+    // create unique key using start and end time
+    $key = $event['start'] . '-' . $event['end'];
+
+    // if not seen yet, store it
+    if (!isset($seen[$key])) {
+        $seen[$key] = true;
+        $unique[] = $event;
+    }
+}
+
+// replace with cleaned array
+$dates = $unique;
 // Get current time
 $now = new DateTime();
 
@@ -64,7 +80,7 @@ if($dates) {
         // Loop through each hour in the range
         $current = clone $start;
 
-        while ($current <= $end) {
+       while ($current < $end){
             $slot_time = $current->format('g:00 A');
             $blocked_slots[$date][$slot_time] = $status;
             $current->modify('+1 hour');
@@ -72,19 +88,7 @@ if($dates) {
     }
 }
 
-foreach ($booking_posts as $booking) {
-    $date_raw  = get_field('date_booked', $booking->ID);
-    $start_raw = get_field('time_start', $booking->ID);
-    $status    = get_field('booking_status', $booking->ID);
 
-    if ($date_raw && $start_raw) {
-
-        $date  = date('Y-m-d', strtotime($date_raw));
-        $start = date('g:00 A', strtotime($start_raw));
-
-        $blocked_slots[$date][$start] = $status;
-    }
-}
 
 
     usort($dates, function($a, $b) {
