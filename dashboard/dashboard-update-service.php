@@ -1,29 +1,35 @@
 <?php
-// TEMPLATE NAME: Add
+// Template Name: Update services
 
-acf_form_head(); // Must be first
+acf_form_head();
 get_header();
 
 $current_user = wp_get_current_user();
 
 /*
 |--------------------------------------------------------------------------
-| Get User Name
+| Get Post ID From URL
 |--------------------------------------------------------------------------
 */
-$full_name = trim($current_user->first_name . ' ' . $current_user->last_name);
-
-if ( empty($full_name) ) {
-    $full_name = $current_user->display_name;
-}
+$post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) : 0;
 
 /*
 |--------------------------------------------------------------------------
-| Post ID
+| Security Check
 |--------------------------------------------------------------------------
-| Let ACF create the post
+| Make sure the current user owns the service
 */
-$post_id = 'new_post';
+if (!$post_id || get_post_type($post_id) !== 'service') {
+    echo '<p>Invalid service.</p>';
+    get_footer();
+    return;
+}
+
+if (get_post_field('post_author', $post_id) != get_current_user_id()) {
+    echo '<p>You are not allowed to edit this service.</p>';
+    get_footer();
+    return;
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -41,13 +47,11 @@ wp_localize_script('availability-calendar', 'availabilityData', [
 ?>
 
 <style>
-/*
-|--------------------------------------------------------------------------
-| Hide raw ACF availability field
-|--------------------------------------------------------------------------
-*/
 #acf-field_69b53dfc0976b{
-    display:none!important;
+display:none!important;
+}
+.acf-field-69b53dfc0976b {
+    display:none;
 }
 </style>
 
@@ -64,12 +68,22 @@ wp_localize_script('availability-calendar', 'availabilityData', [
 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
 
 <!-- Availability Button -->
+ <div class = "button-data">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#calendarModal">
 Manage Availability Calendar
 </button>
+
+<?php 
+$post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) : 0;
+?>
+<a href="<?php echo get_permalink($post_id); ?>" target="_blank" class="btn btn-primary">
+    View Your Profile
+</a>
+</div>
+
 <!-- Calendar Modal -->
-<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
-<div class="modal-dialog modal-xl" role="document">
+<div class="modal fade" id="calendarModal">
+<div class="modal-dialog modal-xl">
 <div class="modal-content">
 
 <div class="modal-header">
@@ -93,29 +107,20 @@ Done / Close
 </div>
 </div>
 
-<!-- Map Search -->
-<div id="geocoder" style="margin-bottom:10px;"></div>
-
 <!-- Map -->
+<div id="geocoder" style="margin-bottom:10px;"></div>
 <div id="map" style="height:300px;margin-bottom:10px;"></div>
 
 <?php
 
 /*
 |--------------------------------------------------------------------------
-| ACF FRONTEND FORM
+| ACF Update Form
 |--------------------------------------------------------------------------
 */
 
 acf_form([
-'post_id'  => 'new_post',
-
-'new_post' => [
-'post_type'   => 'service',
-'post_status' => 'publish',
-'post_author' => $current_user->ID,
-'post_title'  => $full_name
-],
+'post_id' => $post_id,
 
 'fields' => [
 
@@ -147,20 +152,18 @@ acf_form([
 
 ],
 
-'submit_value' => 'Submit',
+'submit_value' => 'Update Service',
 
-'return' => add_query_arg(
-    'submitted',
-    'true',
-    get_permalink()
-),
+'return' => add_query_arg([
+'post_id' => $post_id,
+'updated' => 'true'
+], get_permalink()),
 
 'html_form' => true
 ]);
 
 ?>
 
-<!-- Hidden fields for map coordinates -->
 <input type="hidden" id="acf-field_lat" name="acf[field_lat]" />
 <input type="hidden" id="acf-field_lng" name="acf[field_lng]" />
 

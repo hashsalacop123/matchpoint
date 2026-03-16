@@ -1,8 +1,13 @@
-
+ <div class = "availability-of-coach" id = "booknow">
+                            <h3>Availability Calendar</h3>
 <?php 
 $datacoach = get_field('avalability');
 $dates = json_decode($datacoach, true);
 // remove duplicate ranges (safety guard)
+
+// echo '<pre>';
+//  var_dump($datacoach);
+// echo '</pre>';
 $unique = [];
 $seen = [];
 
@@ -210,7 +215,6 @@ foreach ($slots as $time_val) {
 
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" id="Reserved" class="btn btn-info">Pay Later</button>
                 <button type="button" id="confirm_booking_btn" class="btn btn-primary">Pay Now</button>
             </div>
         </div>
@@ -220,4 +224,5 @@ foreach ($slots as $time_val) {
 var coachBookingData = {
     coach_id: <?php echo get_post_field('post_author', get_the_ID()); ?>
 };
+console.log(coachBookingData);
 </script>

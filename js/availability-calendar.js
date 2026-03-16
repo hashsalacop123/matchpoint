@@ -82,27 +82,12 @@ events: existingEvents.concat(bookingEvents),
 
     var note = prompt('Note (Optional):');
 
-    var start = new Date(info.start);
-    var end = new Date(info.end);
-
-    // loop each day in the range
-    while (start < end) {
-
-        var dayStart = new Date(start);
-        dayStart.setHours(6,0,0,0);
-
-        var dayEnd = new Date(start);
-        dayEnd.setHours(22,0,0,0);
-
-        calendar.addEvent({
-            start: dayStart,
-            end: dayEnd,
-            title: note ? note : 'Available',
-            extendedProps: { note: note || '' }
-        });
-
-        start.setDate(start.getDate() + 1);
-    }
+    calendar.addEvent({
+        start: info.start,
+        end: info.end,
+        title: note ? note : 'Available',
+        extendedProps: { note: note || '' }
+    });
 
     calendar.unselect();
     syncToACF();
@@ -130,3 +115,4 @@ events: existingEvents.concat(bookingEvents),
         });
     }
 });
+// console.log("Calendar data:", availabilityData);

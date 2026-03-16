@@ -197,39 +197,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php } elseif ( in_array( 'court', (array) $user->roles ) ) {
         // Get current logged-in user
-        $current_user_id = get_current_user_id();
+ 
 
-        if ( $current_user_id ) {
 
-            // Custom queryÍÍ
-            $args = array(
-                'post_type'      => 'service',          // your custom post type
-                'author'         => $current_user_id,  // only current user
-                'post_status'    => 'publish',          // or 'any' if you want drafts too
-                'posts_per_page' => -1                  // all posts
-            );
+$current_user_id = get_current_user_id();
 
-            $user_services = new WP_Query($args);
+if ($current_user_id) {
 
-            if ( $user_services->have_posts() ) {
-                echo '<ul class="user-services">';
-                while ( $user_services->have_posts() ) {
-                    $user_services->the_post();
-                    $address = get_field('address');
-                    echo '<li>';
-                    echo '<a href="' . get_permalink() . '"><i class="fa fa-pencil-square" aria-hidden="true"></i>
-        ' . get_the_title() . ' - '.$address.'</a>';
-                    echo '</li>';
-                }
-                echo '</ul>';
-                wp_reset_postdata();
-            } else {
-                echo '<p>You have not posted any services yet.</p>';
-            }
+    // Query services of current user
+    $args = array(
+        'post_type'      => 'service',
+        'author'         => $current_user_id,
+        'post_status'    => 'publish',
+        'posts_per_page' => -1
+    );
 
-        } else {
-            echo '<p>Please log in to view your services.</p>';
+    $user_services = new WP_Query($args);
+
+    if ($user_services->have_posts()) {
+
+        echo '<ul class="user-services">';
+
+        while ($user_services->have_posts()) {
+
+            $user_services->the_post();
+
+            $address = get_field('address');
+
+            echo '<li>';
+            echo '<a href="' . site_url('/dashboard/update-services?post_id=' . get_the_ID()) . '">
+                    <i class="fa fa-pencil-square"></i> 
+                    ' . get_the_title() . ' - ' . $address . '
+                  </a>';
+            echo '</li>';
+
         }
+
+        echo '</ul>';
+
+        wp_reset_postdata();
+
+    } else {
+
+        echo '<p>You have not posted any services yet.</p>';
+
+    }
+
+} else {
+
+    echo '<p>Please log in to view your services.</p>';
+
+}
+
 }
 
 

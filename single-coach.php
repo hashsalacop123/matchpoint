@@ -11,7 +11,7 @@
 $image_size = 'large';
 
 // Fallback image URL
-$fallback_image = get_template_directory_uri() . '/assets/images/fallback.jpg';
+$fallback_image = get_template_directory_uri() . '/img/400.jpeg';
 
 // Get ACF image field
 $featured_image = get_field('featured_image');
@@ -39,13 +39,13 @@ if ( ! empty( $featured_image ) ) {
 
                           echo '<h1>'.$nickname.'</h1>';
                          if (!empty($sports) && is_array($sports)) {
-    echo '<ul>';
+                            echo '<ul>';
 
-    foreach ($sports as $sport) {
-        echo '<li>' . esc_html($sport->name) . '</li>';
-    }
+                            foreach ($sports as $sport) {
+                                echo '<li>' . esc_html($sport->name) . '</li>';
+                            }
 
-    echo '</ul>';
+                            echo '</ul>';
 }
                      
                         echo '<div class = "additional-information-coach">';
@@ -113,8 +113,7 @@ if ( ! empty( $featured_image ) ) {
                             </div>
                         <?php endif; ?>
                     </div>
-                        <div class = "availability-of-coach">
-                            <h3>Availability Calendar</h3>
+                       
 <?php 
 
 require_once get_template_directory() . '/inc/customer-booking.php';

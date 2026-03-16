@@ -113,6 +113,8 @@ if ( $images ) : ?>
 
                 </div>
 
+
+
             </div>
         </div>
                 <!-- SIDEBAR START HERE -->
@@ -124,5 +126,11 @@ if ( $images ) : ?>
         </div>
     </div>
 </div>
+<div class = "container">
+             <?php 
 
+require_once get_template_directory() . '/inc/customer-booking.php';
+?>
+                    </div>
+   
 <?php get_footer(); ?>

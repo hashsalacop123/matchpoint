@@ -942,3 +942,51 @@ section.faq-wrapper {
     border: 0px solid;
     border-radius: 4px;
 }
+ul.social-media-services {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.contact-us-first-wrapper h4 {
+    font-size: 16px;
+    font-weight: 800;
+}.contact-us-first-wrapper ul li i
+ {
+    color: #1e6366;
+}
+
+.contact-us-first-wrapper ul li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}.social-media-follow a {
+    color: #1e6366;
+    padding-left: 10px;
+}
+
+.social-media-follow a:first-child {
+    padding-left: 0px;
+}.rates {
+    padding-bottom: 5px;
+    font-weight: 700;
+}
+
+.rates i {
+    color: #1e6366;
+}div#geocoder {
+    margin-top: 15px;
+}button.booknowdata {
+    background: #1e6366;
+    border: 1px solid;
+    width: 100%;
+    color: #fff;
+    padding: 5px 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+button a {
+    color:#fff;
+}
+button a:hover {
+    color:#fff;
+}

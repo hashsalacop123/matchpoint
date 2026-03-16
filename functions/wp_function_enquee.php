@@ -143,8 +143,7 @@ function enqueue_availability_calendar() {
 add_action('wp_enqueue_scripts','enqueue_availability_calendar');
 
 function enqueue_coach_booking_calendar() {
-    if (!is_singular('coach')) return; // adjust CPT slug
-
+if ( ! is_singular( ['service','coach'] ) ) return;
     wp_enqueue_style(
         'fullcalendar-css',
         'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css'

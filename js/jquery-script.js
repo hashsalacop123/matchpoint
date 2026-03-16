@@ -9,29 +9,55 @@
 
         mapboxgl.accessToken = mapData.token;
 
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: [123.8854, 10.3157], // default Cebu City
-            zoom: 13
-        });
+       let savedLat = parseFloat($acfLatField.val());
+let savedLng = parseFloat($acfLngField.val());
 
-        let marker;
+let center = [123.8854, 10.3157]; // default Cebu
 
-        // Try to get user location
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(
-                function(position){
-                    const userCoords = [position.coords.longitude, position.coords.latitude];
-                    map.setCenter(userCoords);
-                    map.setZoom(16);
-                    marker = new mapboxgl.Marker({draggable:true}).setLngLat(userCoords).addTo(map);
-                    updateFields(userCoords);
-                    addMarkerDragEvent(marker);
-                },
-                function(err){ console.warn('Geolocation error: ' + err.message); }
-            );
+// If existing coordinates exist, use them
+if(!isNaN(savedLat) && !isNaN(savedLng)){
+    center = [savedLng, savedLat];
+}
+
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: center,
+    zoom: 15
+});
+
+let marker;
+
+// If we already have coordinates (Update page)
+if(!isNaN(savedLat) && !isNaN(savedLng)){
+    marker = new mapboxgl.Marker({draggable:true})
+        .setLngLat(center)
+        .addTo(map);
+
+    addMarkerDragEvent(marker);
+}
+
+// Otherwise try geolocation (Add page)
+else if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+        function(position){
+            const userCoords = [position.coords.longitude, position.coords.latitude];
+
+            map.setCenter(userCoords);
+            map.setZoom(16);
+
+            marker = new mapboxgl.Marker({draggable:true})
+                .setLngLat(userCoords)
+                .addTo(map);
+
+            updateFields(userCoords);
+            addMarkerDragEvent(marker);
+        },
+        function(err){
+            console.warn('Geolocation error: ' + err.message);
         }
+    );
+}
 
         const geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
