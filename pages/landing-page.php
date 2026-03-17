@@ -4,29 +4,71 @@
 get_header(); ?>
 
 
-<div class="landing-page-wrapper">
-  <!-- Video Background -->
-  <video autoplay muted loop playsinline class="landing-video">
-    <source src="<?php echo get_stylesheet_directory_uri(); ?>/img/video-landing-home-compress.mp4" type="video/mp4">
+<div class="landing-page-wrapper" style="background-image: url('<?php echo esc_url( get_template_directory_uri() . '/img/banner-home.jpg' ); ?>');">  <!-- Video Background -->
     <!-- Fallback image if video can't play -->
-    Your browser does not support the video tag.
-  </video>
+ 
 
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
         <div class="content-landing-page">
-          <h1>Welcome to Match Point</h1>
-          <ul>
-            <li class = "neon-hover"><a href="/court/"><img src = "<?php echo get_stylesheet_directory_uri(); ?>/img/tennis-ball.png"/><span>Court</span>
-</a></li>                      <li class = "neon-hover"><a href="/coaches/"><img src = "<?php echo get_stylesheet_directory_uri(); ?>/img/tennis-ball.png"/><span>Coaches</span></a></li>
+          <h1>Book Your Court or Coach Instantly</h1>
+          <h2>Search courts, coaches, and locations near you in seconds.</h2>
+       <div class="search-wrapper">
+    <select id="coach-search" style="width:100%"></select>
+    <button id="search-btn" type="button">Search</button>
+</div>
 
-          </ul>
+</select>
         </div>
       </div>
     </div>
   </div>
 </div>
+  <div class = "court-section court-inner-wrapper">
+      <div class = "container">
+          <div class = "row">
+              <div class = "col-md-12">
+                  <hr>
+                <h3>Find your court</h3>
+                <p>Discover top courts in your area and reserve your slot with ease.</p>
+              </div>
+            <?php 
+                        $args = array(
+                            'post_type'      => 'service',
+                            'posts_per_page' => 6,
+                            'post_status'    => 'publish',
+                            'orderby' => 'rand',
+                        );
+
+                        include get_template_directory() . '/loop/service-loop.php'; 
+
+                      ?>
+            </div>
+        </div>
+    </div>
+<div class = "coach-section coach-inner-wrapper">
+  <div class = "container">
+      <div class = "row">
+          <div class = "col-md-12">
+            <hr>
+            <h3>Find your coach</h3>
+            <p>Connect with experienced coaches and improve your game.</p>
+          </div>
+         <?php 
+                    $args = array(
+                        'post_type'      => 'coach',
+                        'posts_per_page' => 6,
+                        'post_status'    => 'publish',
+                        'orderby' => 'rand',
+                    );
+
+                     include get_template_directory() . '/loop/coach-loop.php'; 
+
+                   ?>
+        </div>
+    </div>
+  </div>
 
 
 <?php get_footer(); ?>

@@ -1,5 +1,50 @@
 (function($){
 
+
+
+
+ 
+    $('#coach-search').select2({
+        theme: 'bootstrap4',
+        placeholder: 'Search coach...',
+        minimumInputLength: 2,
+        ajax: {
+            url: booking_ajax.ajax_url, // ✅ fixed
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term,
+                    action: 'search_coaches',
+                    nonce: booking_ajax.nonce // ✅ optional but recommended
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+  let selectedUrl = '';
+
+    // store selected value
+    $('#coach-search').on('select2:select', function(e) {
+        selectedUrl = e.params.data.id;
+    });
+
+    // button click
+    $('#search-btn').on('click', function() {
+
+        if (selectedUrl) {
+            window.location.href = selectedUrl;
+        } else {
+            alert('Please select a result first');
+        }
+
+    });
+
   if ($.fn.slick) {
       Fancybox.bind('[data-fancybox="coach-gallery"]', {
           Thumbs: false,

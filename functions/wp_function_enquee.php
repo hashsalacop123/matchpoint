@@ -92,7 +92,7 @@ function theme_enqueue_styles() {
 
     // Theme JS
     wp_enqueue_script('user-js', get_stylesheet_directory_uri() . '/js/user.js', ['jquery'], null, true);
-    wp_enqueue_script('general-script', get_stylesheet_directory_uri() . '/js/general.js', ['jquery','sweetalert'], null, true);
+    wp_enqueue_script('general-script', get_stylesheet_directory_uri() . '/js/general.js', ['jquery','sweetalert','select2-js'], null, true);
     wp_enqueue_script('jquery-script', get_stylesheet_directory_uri() . '/js/jquery-script.js', ['jquery'], null, true);
 
     wp_localize_script(
@@ -106,6 +106,7 @@ function theme_enqueue_styles() {
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('booking_nonce')
     ]);
+
 
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
@@ -143,6 +144,34 @@ function enqueue_availability_calendar() {
 add_action('wp_enqueue_scripts','enqueue_availability_calendar');
 
 function enqueue_coach_booking_calendar() {
+
+ if ( is_front_page() ) {
+
+        // Select2 CSS
+        wp_enqueue_style(
+            'select2-css',
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+            [],
+            '4.1.0'
+        );
+
+        // Optional Bootstrap theme
+        wp_enqueue_style(
+            'select2-bootstrap',
+            'https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css',
+            ['select2-css'],
+            '1.5.2'
+        );
+
+        // Select2 JS (depends on jQuery)
+        wp_enqueue_script(
+            'select2-js',
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            ['jquery'], // ✅ IMPORTANT
+            '4.1.0',
+            true
+        );
+    }
 if ( ! is_singular( ['service','coach'] ) ) return;
     wp_enqueue_style(
         'fullcalendar-css',
@@ -169,7 +198,10 @@ if ( ! is_singular( ['service','coach'] ) ) return;
         'ajaxurl'  => admin_url('admin-ajax.php'),
         'coach_id' => get_the_ID(),
     ]);
-
+/**
+ * Pass AJAX URL to JS
+ */
+  
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_coach_booking_calendar');

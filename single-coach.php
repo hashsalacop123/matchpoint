@@ -11,7 +11,7 @@
 $image_size = 'large';
 
 // Fallback image URL
-$fallback_image = get_template_directory_uri() . '/img/400.jpeg';
+$fallback_image = get_template_directory_uri() . '/img/placeholder-400x400.jpg';
 
 // Get ACF image field
 $featured_image = get_field('featured_image');

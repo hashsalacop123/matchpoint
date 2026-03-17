@@ -29,8 +29,9 @@ get_header(); ?>
 
                                 $about_me = get_field('about_me');
                                 $about_clean = wp_strip_all_tags($about_me);
-                                $about_trimmed = mb_substr($about_clean, 0, 80) . '...';
+                                $about_trimmed = mb_substr($about_clean, 0, 100) . '...';
                                 $featured = get_field('featured_image');
+                                $court_name = get_field('court_name');
 
                                 $featured_url = '';
                                 if ($featured && is_array($featured)) {
@@ -42,6 +43,7 @@ get_header(); ?>
 
                                 $markers[] = array(
                                     'title' => get_the_title(),
+                                    'court_name' => $court_name,
                                     'lat'   => $lat,
                                     'lng'   => $lng,
                                     'phone' => get_field('phone'),
@@ -72,12 +74,22 @@ get_header(); ?>
                         <?php foreach ($markers as $index => $marker): ?>
                             <div class="col-md-12 mb-12 wrapper-area">
                                 <div class="card marker-card" data-index="<?php echo $index; ?>" style="cursor:pointer;">
-                                    <?php if($marker['featured_image']): ?>
+                                    <?php if($marker['featured_image']){ ?>
                                         <img src="<?php echo esc_url($marker['featured_image']); ?>" class="card-img-top">
-                                    <?php endif; ?>
+                                    <?php } else {
+                                        echo '<img src = "'.get_template_directory_uri() . '/img/placeholder-400x400.jpg'.'" class = "card-image-top">';
+
+                                    }?>
                                     <div class="card-body">
+                                        <?php 
+                                                if($marker['court_name']) {
+                                                    echo '<h3>'.esc_html($marker['court_name']).'</h3>';
+                                                }else {
+                                                    echo '<h3>'.esc_html($marker['title']).'</h3>';
+                                                }
+                                        ?>
                                         <h5 class="card-title"><?php echo esc_html($marker['address']); ?></h5>
-                                        <p class="card-text"><?php echo esc_html($marker['about_me']); ?></p>
+                                        <!-- <p class="card-text"><?php echo esc_html($marker['about_me']); ?></p> -->
                                         
                                     </div>
                                 </div>
@@ -125,11 +137,11 @@ mapboxgl.accessToken = "<?php echo esc_js(MAPBOX_TOKEN); ?>";
 .setPopup(
     new mapboxgl.Popup().setHTML(`
         <div class="popup-content">
-            <h6>${marker.title}</h6>
+         <h6>${marker.court_name || marker.title}</h6>     
             ${marker.address ? `<p><strong>Address:</strong> ${marker.address}</p>` : ''}
             ${marker.phone ? `<p><strong>Phone:</strong> ${marker.phone}</p>` : ''}
             ${marker.about_me ? `<p>${marker.about_me}</p>` : ''}
-            ${marker.url ? `<a href="${marker.url}" class="btn btn-sm btn-primary">View Service</a>` : ''}
+            ${marker.url ? `<a href="${marker.url}" class="btn btn-sm btn-primary btn-general">View Service</a>` : ''}
         </div>
     `)
 )

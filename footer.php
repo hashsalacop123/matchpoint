@@ -1,22 +1,8 @@
 
-<?php if ( is_front_page() || is_page('Registration'))  {
- ?>
-<footer>
-    <div class = "footer-wrapper dashboard-footer">
-        <div class = "container">
-                <div class="row">
-                    <div class = "col-sm-12 col-md-12 text-center">
-                    <p class = "copy-right">&copy; <?php echo date('Y'); ?> Match Point. All rights reserved, All Right Reserved | Designed By <a href="https://hashcrafter.com/">hashcrafter</a></p>
-                    </div>
-                </div>
-        </div>
-    </div>
-</footer>
-<?php wp_footer(); ?>
-</body>
-</html>
 
-<?php }else { ?>
+
+
+
 
 <footer>
     <div class = "footer-wrapper inner-footer">
@@ -104,4 +90,3 @@ if (!empty($subscribe)) {
 </body>
 </html>
 
-    <?php } ?>

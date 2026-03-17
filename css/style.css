@@ -45,12 +45,12 @@ ul.user-services li a {
     border-radius: 10px;
 }
 .marker-card h5 {
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 17px;
+    line-height: 1.2em;
     font-weight: 600;
 }.marker-card .card-body
  {
-    padding: 15px 15px;
+    padding: 5px 15px;
 }.text-paragraph h2 {
     font-size: 15px;
     font-weight: 700;
@@ -68,8 +68,8 @@ ul.user-services li a {
     flex-direction: row; /* so card-body stretches */
     height: 100%;
     align-items: center;
-    padding-left:10px;
-    padding-right:10px;
+    /* padding-left:10px;
+    padding-right:10px; */
 }
 
 /* Make card body take remaining space */
@@ -158,8 +158,11 @@ p.copy-right-bottom-text {
 }
 
 .wrapper-data h1 {
-    font-size: 30px;
-    font-weight: 700;
+  font-size: 48px;
+    color: #1e6366;
+    font-weight: 600;
+    line-height: 1em;
+
 }.address-data-information h3 {
     font-size: 18px;
 }
@@ -313,7 +316,7 @@ ul.service-availability {
     width: 400px;
     object-fit: cover;
     border-radius: 100%;
-        border: 10px solid #FFF;
+        border: 10px solid #1e6366;
 
 }
 .coach-wrapper {
@@ -374,6 +377,7 @@ ul.service-availability {
 }
 .coach-information {
   padding:15px;
+  width: 100%;
 }
 .name-wrapper h4 {
     font-size: 20px;
@@ -427,7 +431,11 @@ ul.service-availability {
     display: flex;
     gap: 10px;
 }
-
+.availability-of-coach h3 {
+    color: #1e6366;
+    font-weight: 600;
+    line-height: 2em;
+}
 .wrapper-coach-info ul li {
     background: #99e127;
     color: #fff;
@@ -493,9 +501,16 @@ ul.service-availability {
     color:#fff;
 }
 .card.marker-card img {
-    width: 140px;
+    width: 120px;
     height: 120px;
     object-fit: cover;
+    border-radius: 10px 0px 0px 10px;
+}
+.card-body h3 {
+    font-weight: 600;
+    font-size: 22px;
+    color: #1e6366;
+    text-transform: capitalize;
 }
 .card {
     border:0px;
@@ -805,33 +820,9 @@ span.pending-color {
 }
 
 
-ul.social-media li {
-    padding-left: 10px;
-}
-
-i.fa-brands.fa-facebook {
-    color: #1877F2;
-}
 
 
-i.fa-brands.fa-youtube {
-    color: #FF0000;
-}
-
-i.fa-brands.fa-square-instagram {
-    background: linear-gradient(
-  45deg,
-  #833AB4,
-  #E1306C,
-  #F77737,
-  #FCAF45
-);
-    color: white;
-}
-
-i.fa-brands.fa-tiktok {
-    color: #000000;
-}section.faq-wrapper {
+section.faq-wrapper {
     background: #dadddf;
     padding-top: 60px;
     padding-bottom: 60px;
@@ -989,4 +980,54 @@ button a {
 }
 button a:hover {
     color:#fff;
+}
+a.btn-general {
+    background: #1e6366!important;
+    border: 0;
+}.popup-content p {
+    margin-bottom: 5px;
+}
+button#confirm_booking_btn {
+     background: #1e6366!important;
+    border:1 solid #1e6366;
+}.item-wrapper-court {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.item-wrapper-court {
+    height: 270px;
+    width: 100%;
+    object-fit: cover;
+    background-position: center center;
+    background-size: cover;
+        box-shadow: 0 3.989px 14.959px 0 rgba(0, 0, 0, 0.10);
+}.court-inner-wrapper {
+    padding-top: 50px;
+}.search-wrapper {
+    display: flex;
+    width: 65%;
+    text-align: left;
+    margin: 0 auto;
+}.search-wrapper button {
+    background: #1e6366;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 0;
+    color: #fff;
+    padding: 10px 25px;
+}.search-wrapper span.select2-selection.select2-selection--single {
+    border-radius: 0px;
+}
+
+.search-wrapper span.select2-selection.select2-selection--single {
+    border-radius: 0px;
+    height: 50px !important;
+    display: flex;
+    padding-top: 5px;
+}.landing-page-wrapper h2 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 25px;
 }

@@ -10,17 +10,11 @@
     <?php wp_head(); ?>
 <body <?php body_class(); ?> >
     <header id = "header_bg_color">
-<?php if  ( is_front_page() ) { 
-
-            get_template_part( 'header/header-front' );
-
-}elseif ( is_page_template( 'pages/registration-page.php' ) ) {
-
- }else { 
+<?php 
 
             get_template_part( 'header/header-inner' );
            
 
-         } ?>
+          ?>
     </header>
     

@@ -128,5 +128,125 @@ add_action('after_setup_theme', function () {
 
 });
 
+/**
+ * AJAX search for coach + service (ACF + author + title)
+ */
+function search_coaches_ajax() {
 
+    check_ajax_referer('booking_nonce', 'nonce'); // security
+
+    $search = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
+
+    if (empty($search)) {
+        wp_send_json([]);
+    }
+
+    $results = [];
+
+    /**
+     * STEP 1: SEARCH USERS (for author matching)
+     */
+    $user_ids = [];
+    $users = get_users([
+        'search'         => '*' . esc_attr($search) . '*',
+        'search_columns' => ['user_login', 'display_name'],
+    ]);
+
+    if (!empty($users)) {
+        foreach ($users as $user) {
+            $user_ids[] = $user->ID;
+        }
+    }
+
+    /**
+     * STEP 2: GET POSTS (no strict filtering)
+     */
+    $query = new WP_Query([
+        'post_type'      => ['coach', 'service'],
+        'posts_per_page' => -1, // get all, filter manually
+        'post_status'    => 'publish',
+    ]);
+
+    /**
+     * STEP 3: LOOP + MATCH
+     */
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+
+            $post_id   = get_the_ID();
+            $title     = get_the_title() ?: '';
+            $post_type = get_post_type();
+            $author_id = get_the_author_meta('ID');
+
+            // ACF fields (safe fallback)
+            $nickname  = get_field('nick_name', $post_id) ?: '';
+            $address   = get_field('address', $post_id) ?: '';
+            $court     = get_field('court_name', $post_id) ?: '';
+
+            // User fields (safe fallback)
+            $first = get_user_meta($author_id, 'first_name', true) ?: '';
+            $last  = get_user_meta($author_id, 'last_name', true) ?: '';
+
+            /**
+             * MULTI-WORD SEARCH SUPPORT
+             */
+            $search_terms = explode(' ', strtolower($search));
+            $match = false;
+
+            foreach ($search_terms as $term) {
+
+                if (
+                    stripos($title, $term) !== false ||
+                    stripos($nickname, $term) !== false ||
+                    stripos($address, $term) !== false ||
+                    stripos($court, $term) !== false ||
+                    stripos($first, $term) !== false ||
+                    stripos($last, $term) !== false ||
+                    in_array($author_id, $user_ids)
+                ) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            /**
+             * ADD RESULT
+             */
+            if ($match) {
+
+                $label = $title;
+
+                if ($post_type === 'service') {
+                    $label .= ' (Court)';
+                    if (!empty($address)) {
+                        $label .= ' - ' . $address;
+                    }
+                } else {
+                    $label .= ' (Coach)';
+                    if (!empty($first) || !empty($last)) {
+                        $label .= ' - ' . $first . ' ' . $last;
+                    }
+                }
+
+                $results[] = [
+                    'id'   => get_permalink(), // for redirect
+                    'text' => $label,
+                ];
+            }
+
+            // LIMIT results (important for performance)
+            if (count($results) >= 10) {
+                break;
+            }
+        }
+    }
+
+    wp_reset_postdata();
+
+    wp_send_json($results);
+}
+
+add_action('wp_ajax_search_coaches', 'search_coaches_ajax');
+add_action('wp_ajax_nopriv_search_coaches', 'search_coaches_ajax');
 ?>

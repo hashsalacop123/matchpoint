@@ -4,7 +4,16 @@
         <div class = "row">
         <div class = "col-xl-9 col-lg-9 col-md-9 col-sm-12">
             <div class = "wrapper-data">
-                <h1><?php echo get_the_title(); ?></h1>
+
+                <?php 
+                $court_name = get_field('court_name');
+                    if($court_name ) {
+                        echo '<h1>'.$court_name.'</h1>';
+                    }else {
+                        echo '<h1>'.get_the_title().'</h1>';
+                    }
+                
+                ?>
                 <div class="service-meta">
     <!-- Author -->
    
