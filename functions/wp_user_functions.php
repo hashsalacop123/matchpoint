@@ -121,13 +121,10 @@ add_action('template_redirect', function() {
 
 function custom_user_login_shortcode() {
 
-    $login_error = get_transient('login_errors');
-    delete_transient('login_errors');
+
 
     ob_start(); ?>
-    <?php if ( $login_error ) : ?>
-        <p style="color:red;"><?php echo esc_html($login_error); ?></p>
-    <?php endif; ?>
+  
 
     <form method="post" class="custom-login-form">
         <p>
@@ -150,9 +147,26 @@ function custom_user_login_shortcode() {
         <p>
             <a href="<?php echo wp_lostpassword_url(); ?>">Forgot Password?</a>
         </p>
+ 
     </form>
     <?php
 
+$login_error = get_transient('login_errors');
+delete_transient('login_errors'); // clear after getting
+
+
+ if (!empty($login_error)) : ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: <?php echo json_encode($login_error); ?>,
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+<?php endif;
     return ob_get_clean();
 }
 add_shortcode('user_login', 'custom_user_login_shortcode');
@@ -211,51 +225,40 @@ function add_custom_user_roles() {
 }
 add_action('init', 'add_custom_user_roles');
 
-
 add_filter('acf/update_value/name=registration_status', 'acf_user_registration_status_email', 10, 3);
+
 function acf_user_registration_status_email($value, $post_id, $field) {
 
-    // Only user profiles
     if (strpos($post_id, 'user_') !== 0) {
         return $value;
     }
 
-    // Admin only
-    if ( ! is_admin() ) {
+    // ❗ Prevent running on AJAX (important)
+    if ( defined('DOING_AJAX') && DOING_AJAX ) {
         return $value;
     }
 
     $user_id = str_replace('user_', '', $post_id);
     $user    = get_user_by('ID', $user_id);
 
-    if ( ! $user ) {
+    if (!$user) {
         return $value;
     }
 
-    // OLD value (before update)
     $old_status = get_user_meta($user_id, 'registration_status', true);
-
-    // NEW value (about to be saved)
     $new_status = $value;
 
-    // No change → no email
     if ($old_status === $new_status) {
         return $value;
     }
 
-    // HTML emails
     add_filter('wp_mail_content_type', function () {
         return 'text/html';
     });
 
-    /* =====================
-     * APPROVED
-     * ===================== */
     if ($new_status === 'member') {
 
-        // Assign role
-        $wp_user = new WP_User($user_id);
-        $wp_user->set_role('subscriber'); // change if needed
+        // ❌ REMOVED ROLE CHANGE
 
         wp_mail(
             $user->user_email,
@@ -270,9 +273,6 @@ function acf_user_registration_status_email($value, $post_id, $field) {
         );
     }
 
-    /* =====================
-     * REJECTED
-     * ===================== */
     if ($new_status === 'rejected') {
 
         wp_mail(
@@ -287,5 +287,5 @@ function acf_user_registration_status_email($value, $post_id, $field) {
         );
     }
 
-    return $value; // VERY IMPORTANT (allows ACF to save)
+    return $value;
 }

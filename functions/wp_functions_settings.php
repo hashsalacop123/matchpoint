@@ -249,4 +249,106 @@ function search_coaches_ajax() {
 
 add_action('wp_ajax_search_coaches', 'search_coaches_ajax');
 add_action('wp_ajax_nopriv_search_coaches', 'search_coaches_ajax');
+
+
+add_action('wp_ajax_update_user_status', 'handle_update_user_status');
+
+function handle_update_user_status() {
+
+    // Security check
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'booking_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+
+    // Get values
+    $user_id = intval($_POST['user_id']);
+    $status  = sanitize_text_field($_POST['status']);
+
+    if (!$user_id) {
+        wp_send_json_error('Invalid user ID');
+    }
+
+    // Get user
+    $user = get_user_by('ID', $user_id);
+    if (!$user) {
+        wp_send_json_error('User not found');
+    }
+
+    // Get OLD status
+    $old_status = get_field('registration_status', 'user_' . $user_id);
+
+    // If no change, skip
+    if ($old_status === $status) {
+        wp_send_json_success([
+            'message' => 'No changes made',
+            'user_id' => $user_id,
+            'status'  => $status
+        ]);
+    }
+
+    // Update ACF field
+    update_field('registration_status', $status, 'user_' . $user_id);
+
+    // Set email to HTML
+    add_filter('wp_mail_content_type', function () {
+        return 'text/html';
+    });
+
+    $subject = '';
+    $message = '';
+
+    /* =====================
+     * MEMBER (APPROVED)
+     * ===================== */
+    if ($status === 'member') {
+
+        $subject = 'Your Account Has Been Approved 🎉';
+        $message = "
+            <h2>Hi {$user->first_name},</h2>
+            <p>Your registration has been <strong>approved</strong>.</p>
+            <p>You may now log in and start using your account.</p>
+            <p><a href='" . wp_login_url('/login') . "'>Login here</a></p>
+            <p>— " . get_bloginfo('name') . "</p>
+        ";
+    }
+
+    /* =====================
+     * REJECTED
+     * ===================== */
+    elseif ($status === 'rejected') {
+
+        $subject = 'Your Registration Status';
+        $message = "
+            <h2>Hi {$user->first_name},</h2>
+            <p>We regret to inform you that your registration was <strong>rejected</strong>.</p>
+            <p>If you believe this is a mistake, please contact us.</p>
+            <p>— " . get_bloginfo('name') . "</p>
+        ";
+    }
+
+    /* =====================
+     * PENDING
+     * ===================== */
+    elseif ($status === 'pending') {
+
+        $subject = 'Your Registration is Pending';
+        $message = "
+            <h2>Hi {$user->first_name},</h2>
+            <p>Your registration is currently <strong>pending review</strong>.</p>
+            <p>We will notify you once it has been reviewed.</p>
+            <p>— " . get_bloginfo('name') . "</p>
+        ";
+    }
+
+    // Send email if defined
+    if (!empty($subject) && !empty($message)) {
+        wp_mail($user->user_email, $subject, $message);
+    }
+
+    wp_send_json_success([
+        'message' => 'Updated successfully',
+        'user_id' => $user_id,
+        'status'  => $status
+    ]);
+}
 ?>

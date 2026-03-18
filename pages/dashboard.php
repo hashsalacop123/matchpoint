@@ -58,7 +58,7 @@ get_header();
 
                 if ($bookings) :
                 ?>
-                    <table id="bookings" class="display">
+                    <table id="bookings" class="display tables-general">
                         <thead>
                             <tr>
                                 <th>Name</th>

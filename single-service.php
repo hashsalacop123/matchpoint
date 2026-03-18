@@ -96,22 +96,7 @@ if ( $images ) : ?>
                             </div>
                         <?php endif; ?>
                 </div>
-                    <?php if ( have_rows('availability') ) : ?>
-                            <ul class="service-availability">
-                                <?php while ( have_rows('availability') ) : the_row(); ?>
-                                    <li><div class = "day-availability">
-                                       <?php $field = get_sub_field_object('day');
-                                    if ( $field ) {
-                                        $value = $field['value'];
-                                        $label = $field['choices'][ $value ];
-                                        echo esc_html( mb_substr( $label, 0, 3 ) ); } ?></div>
-                                        <?php echo  get_sub_field('time'). ' - '.get_sub_field('end_time'); ?>
-
-                                    </li>
-                                <?php endwhile; ?>
-                            </ul>
-                        <?php endif; ?>
-
+                    
                  <div class = "divider-sp">
                     <hr>
                 </div>  
@@ -135,11 +120,13 @@ if ( $images ) : ?>
         </div>
     </div>
 </div>
-<div class = "container">
+<div class = "single-booking-services">
+        <div class = "container">
              <?php 
 
 require_once get_template_directory() . '/inc/customer-booking.php';
 ?>
                     </div>
+</div>
    
 <?php get_footer(); ?>

@@ -1,0 +1,162 @@
+
+/*------------------------------------*\
+    RESPONSIVE
+\*------------------------------------*/
+		/*container bootstrap override*/
+		
+		@media only screen and (max-width:1440px) {
+
+		}
+		
+		@media only screen and (max-width:1366px) {
+            .home-landing-page {
+                min-height: 500px;
+            }
+		}
+		
+		@media only screen and (max-width:1280px) {
+            .content-landing-page h1 {
+                font-size:45px;
+            }
+              .home-landing-page {
+                min-height: 450px;
+            }
+		}
+		
+		@media only screen and (max-width:1024px) {
+                .content-landing-page h1 {
+                    font-size: 35px;
+                }
+                .home-landing-page {
+                    min-height: 400px;
+                }
+                .item-wrapper-court {
+                    min-height: 225px;
+                    height:225px;
+                }
+               .about-wrapper {
+                padding-top: 9px;
+                padding-bottom: 9px;
+                font-size: 14px;
+            }
+            .item-wrapper-court::before {
+   
+                background: rgb(0 0 0 / 60%);
+            }
+		}
+		
+		@media only screen and (max-width:991px) {
+                .left-menu-header ul {
+                    display: flex;
+                    list-style: none;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                    flex-direction: row;
+                    align-content: center;
+                    padding-left:0px;
+                }
+                .left-menu-header ul li {
+                   margin-left: 0;
+                }
+                .navigation-wrapper ul li {
+                    margin-left: 3px;
+                    margin-right: 3px;
+                    padding: 8px 8px;
+                    border-radius: 0;
+                }
+             .home-landing-page {
+                   min-height: 370px;
+                }
+                .court-inner-wrapper {
+                   padding-top: 20px;
+                }
+                .coach-inner-wrapper {
+                padding-top: 25px;
+            }
+            .menu-icon.on {
+    width: 0;
+}
+
+.menu-icon.on div {
+    background: #fffafa;
+}
+		}
+        
+		
+		@media only screen and (max-width:768px) {
+            .deskotop-menu {
+                display: none;
+            }
+            .menu-icon {
+                display: block;
+            }
+            .search-wrapper {
+                width: 100%;
+            }
+            .content-landing-page h1 {
+               font-size: 30px;
+            }
+            .home-landing-page
+             {
+                min-height: 330px;
+            }
+		}	
+	
+		
+		@media only screen and (max-width:767px) {
+            .footer-column h5
+            {
+                    font-size: 14px;
+            }
+          .item-wrapper-court {
+                min-height: 225px;
+                height: 400px;
+            }
+            .footer-third-column ul {
+                display: flex;
+                justify-content: center;
+            }
+            .footer-column {
+                color: #2a3037;
+                text-align: center;
+            }
+            .footer-column {
+                padding-top: 10px;
+            }
+                .footer-column h5 {
+                font-size: 20px;
+                color: #1e6366;
+                font-weight: 700;
+            }
+		}
+			@media screen and (max-width:575px) {
+            .inner-page-logo img {
+                width: 40%;
+            }
+            .menu-icon {
+                width: 85px;
+                height: 35px;
+                top: -45px;
+            }
+                .item-wrapper-court {
+                min-height: 225px;
+                height: 250px;
+            }
+            
+        }
+		@media only screen and (max-height:375px) {
+
+		}
+		
+		@media only screen and (max-width:480px) {
+
+		}
+		/*	//recaptcha*/
+		
+		@media screen and (max-height: 575px) {
+
+		}
+		
+		@media only screen and (max-width:320px) {
+
+		}

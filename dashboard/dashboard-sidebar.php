@@ -57,6 +57,19 @@ $coach = get_posts([
         </li>   
  </ul>
 
+<?php } elseif (in_array('administrator',(array) $user->roles)) { ?>
+     <ul>
+        <li><a href = "/dashboard/admin"><i class="fa fa-volume-up" aria-hidden="true"></i> Dashboard</a></li>
+        <li><a href = "/dashboard/my-account/"><i class="fa fa-user-circle" aria-hidden="true"></i> My Account</a></li>
+        <li><a href = "/dashboard/coach/"><i class="fa fa-users" aria-hidden="true"></i></i> Coach</a></li>
+        <li><a href = "/dashboard/court/"><i class="fa fa-trophy" aria-hidden="true"></i></i> Court</a></li>
+
+        <li>
+            <a href="<?php echo wp_logout_url( home_url() ); ?>" class="logout-link">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>Logout
+            </a>
+        </li>   
+ </ul>
 <?php } ?>
 
 

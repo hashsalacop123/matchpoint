@@ -27,6 +27,7 @@
     background: #f1f1f1;
     padding-top:15px;
     padding-bottom: 15px;
+    position: relative;
 }ul.user-services {
     padding-left: 0px;
     list-style: none;
@@ -154,7 +155,6 @@ p.copy-right-bottom-text {
     margin-bottom: 55px;
 }.wrapper-data {
     padding-top: 80px;
-    padding-bottom: 80px;
 }
 
 .wrapper-data h1 {
@@ -712,10 +712,10 @@ input.wpcf7-form-control.wpcf7-submit.has-spinner {
     padding: 30px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
-}table#bookings button {
+}table.tables-general button {
     padding: 5px 5px !important;
     font-size: 12px;
-}table#bookings td {
+}table.tables-general td {
     text-align: left;
     font-size: 14px;
 }td.date-booked {
@@ -723,7 +723,7 @@ input.wpcf7-form-control.wpcf7-submit.has-spinner {
     font-weight: 700;
 }
 
-table#bookings th {
+table.tables-general th {
     text-align: left;
     font-size: 12px;
     background: #1e6366;
@@ -889,6 +889,7 @@ section.faq-wrapper {
     border: 1px solid #fff;
     padding: 5px 20px;
     border-radius: 20px;
+    width: 100%;
 }
 
 .bottom-container {
@@ -1031,3 +1032,75 @@ button#confirm_booking_btn {
     color: #fff;
     margin-bottom: 25px;
 }
+.single-booking-services {
+    padding-bottom:80px;
+}
+
+
+/*			navigator			*/
+
+#navigator{
+     width: 250px;
+    height:100%;
+    position: fixed;
+    top: 0;
+    right: -250px; /* 👈 move to RIGHT side (hidden) */
+    background: #1e6266;
+    z-index: 10;
+}
+#nav{
+	width: 250px;
+	height: auto;
+	display: block;
+	margin: 0 ;
+	padding: 0;
+    margin-top:10em;
+   
+}
+.nav_tab{
+	width: 250px;
+	height: 50px;
+	display: block;
+     border-bottom: 1px solid #fff;
+}
+.nav_tab a {
+	color: rgba(255,255,255,0.8);
+	font-size: 18px;
+	padding: 15px 0;
+	text-align: center;
+	transition:0.35s ease;
+	-webkit-transition:0.35s ease;
+	-moz-transition:0.35s ease;
+    display: block;
+}
+
+.menu-icon{
+    width: 85px;
+    height: 35px;
+    position: absolute; /* 👈 change from fixed */
+    top: -20px;
+    right: 0;
+    z-index: 11;
+    display:none;
+}
+.menu-text {
+	  position: fixed;
+    top: 0;
+    right: 50px; /* 👈 move text to right */
+    margin: 10px;
+    z-index: 9;
+}
+
+.menu-icon div {
+  width: 40px;
+  height: 5px;
+  background: #1e6366;
+  margin: 5px ;
+  transition: all 0.35s;
+  border-radius: 2px;
+}
+.on .line_one {transform: rotate(45deg) translate(7px, 7px);}
+.on .line_two {opacity: 0;}
+.on .line_three {transform: rotate(-45deg) translate(7px, -7px);}
+
+

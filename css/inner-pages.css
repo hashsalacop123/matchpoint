@@ -67,9 +67,34 @@ input.acf-button.button.button-primary.button-large:hover {
     background: transparent;
 
 }.registration-page-data {
-    display: block;
-    padding-top: 3em;
+    /* display: flex; */
+    padding-top: 0em;
+    padding-bottom: 0em;
+    text-align: center;
+    min-height: 700px;
+    position: relative;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
+
+
+.registration-page-data::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    pointer-events: none; /* keeps everything clickable */
+}
+
+/* keep content above overlay */
+.registration-page-data > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* make sure content stays above overlay */
+
 .login-form-box input {
     width: 100%;
 }.login-form-box input#rememberme {

@@ -1,22 +1,19 @@
 (function($){
 
-
-
-
  
     $('#coach-search').select2({
         theme: 'bootstrap4',
         placeholder: 'Search coach...',
         minimumInputLength: 2,
         ajax: {
-            url: booking_ajax.ajax_url, // ✅ fixed
+            url: booking_ajax.ajax_url,
             dataType: 'json',
             delay: 250,
             data: function(params) {
                 return {
                     q: params.term,
                     action: 'search_coaches',
-                    nonce: booking_ajax.nonce // ✅ optional but recommended
+                    nonce: booking_ajax.nonce
                 };
             },
             processResults: function(data) {
@@ -27,11 +24,13 @@
             cache: true
         }
     });
-  let selectedUrl = '';
 
-    // store selected value
+    let selectedUrl = '';
+
     $('#coach-search').on('select2:select', function(e) {
         selectedUrl = e.params.data.id;
+        // optional redirect
+        // window.location.href = selectedUrl;
     });
 
     // button click
@@ -127,6 +126,7 @@ jQuery('.open-booking-modal').length
     // Update booking
     $(document).on('click', '#update-booking', function () {
 
+        
         var booking_id = $('#modal-booking-id').val();
         var status = $('#modal-status').val();
 
@@ -163,6 +163,61 @@ jQuery('.open-booking-modal').length
 
     });
 
+// user approval modal
+// Open modal
+$(document).on('click', '.open-user-modal', function () {
+
+    $('#modal-user-id').val($(this).data('id'));
+    $('#modal-user-first').val($(this).data('first'));
+    $('#modal-user-last').val($(this).data('last'));
+    $('#modal-user-status').val($(this).data('status'));
+
+    $('#userModal').fadeIn();
+});
+
+// Close modal
+$(document).on('click', '#close-user-modal', function () {
+    $('#userModal').fadeOut();
+});
+
+// Update user status
+$(document).on('click', '#update-user-membership', function () {
+
+    var user_id = $('#modal-user-id').val();
+    var status  = $('#modal-user-status').val();
+
+    $.post(booking_ajax.ajax_url, {
+        action: 'update_user_status',
+        user_id: user_id,
+        status: status,
+        nonce: booking_ajax.nonce
+    }, function (response) {
+
+        if (response.success) {
+
+            $('#userModal').fadeOut();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated!',
+                text: 'User status updated successfully.'
+            }).then(() => {
+                location.reload();
+            });
+
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.data || 'Update failed.'
+            });
+
+        }
+    });
+
+});
+
 jQuery(document).ready(function ($) {
 
     $('#sampleAccordion').on('show.bs.collapse', function (e) {
@@ -183,6 +238,25 @@ jQuery(document).ready(function ($) {
 
 });
 
+    $('.menu-icon').click(function () {
+
+        if ($('#navigator').css("right") == "-250px") {
+
+            $('#navigator').animate({right: '0px'}, 350);
+            $(this).animate({right: '120px'}, 350);
+            $('.menu-text').animate({right: '300px'}, 350).text("Close");
+
+        } else {
+
+            $('#navigator').animate({right: '-250px'}, 350); 
+            $(this).animate({right: '0px'}, 350);
+            $('.menu-text').animate({right: '50px'}, 350).text("Menu");
+
+        }
+
+        $(this).toggleClass("on");
+
+    });
 
 
 })(jQuery);

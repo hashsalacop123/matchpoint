@@ -9,19 +9,12 @@ wp_enqueue_media();
 redirect_user_login(); 
 ?>
 
-<div class="landing-page-wrapper registration-page-data">
-
-  <!-- Video Background -->
-  <video autoplay muted loop playsinline class="landing-video">
-    <source src="<?php echo get_stylesheet_directory_uri(); ?>/img/registration-background-compress.mp4" type="video/mp4">
-    <!-- Fallback image if video can't play -->
-    Your browser does not support the video tag.
-  </video>
+<div class="landing-page-wrapper registration-page-data" style="background-image: url('<?php echo esc_url( get_template_directory_uri() . '/img/banner-home.jpg' ); ?>');"> 
 
 
-        <div class = "logo">
-            <a href = "<?php echo site_url(); ?>"><img src = "<?php echo get_stylesheet_directory_uri(); ?>/img/match-point-logo-transparent.png" class = "img-fluid"></a>
-        </div>
+
+
+  
   
         <?php $current_page = get_queried_object();
 

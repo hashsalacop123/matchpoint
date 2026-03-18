@@ -4,7 +4,7 @@
 get_header(); ?>
 
 
-<div class="landing-page-wrapper" style="background-image: url('<?php echo esc_url( get_template_directory_uri() . '/img/banner-home.jpg' ); ?>');">  <!-- Video Background -->
+<div class="landing-page-wrapper home-landing-page" style="background-image: url('<?php echo esc_url( get_template_directory_uri() . '/img/banner-home.jpg' ); ?>');">  <!-- Video Background -->
     <!-- Fallback image if video can't play -->
  
 
@@ -30,7 +30,7 @@ get_header(); ?>
           <div class = "row">
               <div class = "col-md-12">
                   <hr>
-                <h3>Find your court</h3>
+                <h3 class = "h3-class" >Find your court</h3>
                 <p>Discover top courts in your area and reserve your slot with ease.</p>
               </div>
             <?php 
@@ -52,7 +52,7 @@ get_header(); ?>
       <div class = "row">
           <div class = "col-md-12">
             <hr>
-            <h3>Find your coach</h3>
+            <h3 class = "h3-class">Find your coach</h3>
             <p>Connect with experienced coaches and improve your game.</p>
           </div>
          <?php 

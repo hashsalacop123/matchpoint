@@ -36,6 +36,7 @@ function theme_enqueue_styles() {
     wp_enqueue_style('landing-page', get_template_directory_uri() . '/css/home-page.css');
     wp_enqueue_style('innerpages', get_template_directory_uri() . '/css/inner-pages.css');
     wp_enqueue_style('global-css', get_template_directory_uri() . '/css/style.css');
+    wp_enqueue_style('responsive', get_template_directory_uri() . '/css/responsive.css');
     wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
 
     // jQuery
@@ -43,38 +44,40 @@ function theme_enqueue_styles() {
 
     // JS Libraries
     // Replace the old Alpha 6 link with this stable 4.6 link
-     if ( is_page('dashboard') ) {
+            if ( is_page( array('dashboard', 'admin') ) ) {
 
-        // DataTables CSS
-        wp_enqueue_style(
-            'datatables-css',
-            'https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css',
-            array(),
-            '2.3.7'
-        );
+                
+                    // DataTables CSS
+                    wp_enqueue_style(
+                        'datatables-css',
+                        'https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css',
+                        array(),
+                        '2.3.7'
+                    );
 
-        // DataTables JS
-        wp_enqueue_script(
-            'datatables-js',
-            'https://cdn.datatables.net/2.3.7/js/dataTables.min.js',
-            array('jquery'), // dependency
-            '2.3.7',
-            true // load in footer
-        );
-        // Inline initialization script
-        $datatable_init = "
-            Object.assign(DataTable.defaults, {
-                searching: false,
-                ordering: false
-            });
+                    // DataTables JS
+                    wp_enqueue_script(
+                        'datatables-js',
+                        'https://cdn.datatables.net/2.3.7/js/dataTables.min.js',
+                        array('jquery'), // dependency
+                        '2.3.7',
+                        true // load in footer
+                    );
+                    // Inline initialization script
+                    $datatable_init = "
+                        Object.assign(DataTable.defaults, {
+                            searching: false,
+                            ordering: false
+                        });
 
-            new DataTable('#bookings');
-        ";
+                        new DataTable('#bookings');
+                        new DataTable('#users-table');
+                    ";
 
-        wp_add_inline_script('datatables-js', $datatable_init);
-    }
-      // Dashboard script
-    
+                    wp_add_inline_script('datatables-js', $datatable_init);
+                }
+                // Dashboard script
+                
     wp_localize_script('general-script', 'booking_ajax', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('booking_nonce')
@@ -82,8 +85,14 @@ function theme_enqueue_styles() {
 
     wp_enqueue_style('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css');
     wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js', ['jquery'], null, true);
-    wp_enqueue_script('sweetalert','https://cdn.jsdelivr.net/npm/sweetalert2@11', ['jquery'], null, true);
-    wp_enqueue_script('mapbox-gl-js','https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js', ['jquery'], null, false);
+        wp_enqueue_script(
+            'sweetalert',
+            'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+            array(),
+            null,
+            true
+        );   
+     wp_enqueue_script('mapbox-gl-js','https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js', ['jquery'], null, false);
     wp_enqueue_script('slick-slider-js','//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', ['jquery'], null, true);
     wp_enqueue_script('geocoder-js','https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js', ['jquery'], null, true);
     wp_enqueue_script('mapbox-gl-directions-js','https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js', ['jquery'], null, true);
@@ -92,7 +101,7 @@ function theme_enqueue_styles() {
 
     // Theme JS
     wp_enqueue_script('user-js', get_stylesheet_directory_uri() . '/js/user.js', ['jquery'], null, true);
-    wp_enqueue_script('general-script', get_stylesheet_directory_uri() . '/js/general.js', ['jquery','sweetalert','select2-js'], null, true);
+    wp_enqueue_script('general-script',get_stylesheet_directory_uri() . '/js/general.js',['jquery','sweetalert','select2-js'],null,true);
     wp_enqueue_script('jquery-script', get_stylesheet_directory_uri() . '/js/jquery-script.js', ['jquery'], null, true);
 
     wp_localize_script(
@@ -145,9 +154,7 @@ add_action('wp_enqueue_scripts','enqueue_availability_calendar');
 
 function enqueue_coach_booking_calendar() {
 
- if ( is_front_page() ) {
-
-        // Select2 CSS
+          // Select2 CSS
         wp_enqueue_style(
             'select2-css',
             'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
@@ -163,15 +170,16 @@ function enqueue_coach_booking_calendar() {
             '1.5.2'
         );
 
-        // Select2 JS (depends on jQuery)
+                // Select2 JS (depends on jQuery)
+                // JS
         wp_enqueue_script(
             'select2-js',
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-            ['jquery'], // ✅ IMPORTANT
-            '4.1.0',
+            'https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js',
+            ['jquery'],
+            null,
             true
         );
-    }
+    
 if ( ! is_singular( ['service','coach'] ) ) return;
     wp_enqueue_style(
         'fullcalendar-css',
@@ -205,18 +213,5 @@ if ( ! is_singular( ['service','coach'] ) ) return;
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_coach_booking_calendar');
-
-// /**
-//  * Remove version query strings from enqueued CSS and JS
-//  */
-// function remove_css_js_version( $src ) {
-//     if ( strpos( $src, '?ver=' ) ) {
-//         $src = remove_query_arg( 'ver', $src );
-//     }
-//     return $src;
-// }
-
-// add_filter( 'style_loader_src', 'remove_css_js_version', 10, 1 );
-// add_filter( 'script_loader_src', 'remove_css_js_version', 10, 1 );
 
 ?>
