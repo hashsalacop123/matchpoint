@@ -1036,7 +1036,6 @@ button#confirm_booking_btn {
     padding-bottom:80px;
 }
 
-
 /*			navigator			*/
 
 #navigator{
@@ -1104,3 +1103,18 @@ button#confirm_booking_btn {
 .on .line_three {transform: rotate(-45deg) translate(7px, -7px);}
 
 
+div#map {
+    width: 100%;
+    height: 100%;
+}.sidebar-maps {
+    padding-right: 0px;
+}
+
+.container-map {
+    height: 100vh;
+}
+.row-power h4 {
+    display: none;
+}.contact-social-media li i {
+    font-size: 19px;
+}

@@ -88,7 +88,7 @@ get_header(); ?>
                         <li>
                             <i class="fa-solid fa-house"></i>  
                                 <h4>Follow Us</h4>
-                            <ul class = "social-media">
+                            <ul class = "social-media contact-social-media">
                                 <li><a href = "https://www.facebook.com/MatchpointTennisAcad/" target = "_blank"><i class="fa-brands fa-facebook"></i></a></li>
                                 <li><a href = "https://www.youtube.com/@matchpointtenniscebu" target = "_blank"><i class="fa-brands fa-youtube"></i>
                                     </a></li>

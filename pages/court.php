@@ -59,7 +59,7 @@ get_header(); ?>
 
                 ?>
                     <!-- INFORMATION COLUMN (now first / left) -->
-            <div class = "col-xl-4 col-lg-4 col-md-4 co-sm-4 sidebar-maps" style="height:100vh; overflow-y:auto;">
+            <div class = "col-xl-4 col-lg-4 col-md-12 co-sm-12 sidebar-maps">
                 <!-- INFORMATION -->
                 <!-- SLIDER SLICK  -->
                 <div class="container-data-convice">
@@ -96,15 +96,17 @@ get_header(); ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
+                                            <h4>Scrool Left/Right</h4>
+
                     </div>
                 </div>
             </div>
 
             <!-- MAP COLUMN (now second / right) -->
-            <div class = "col-xl-8 col-lg-8 col-md-8 co-sm-8"  style="height:100vh;">
+            <div class = "col-xl-8 col-lg-8 col-md-12 col-sm-12 container-map">
                 <!-- MAPS -->
      
-      <div id="map" style="width: 100%; height: 100%;"></div> 
+      <div id="map"></div> 
                 <script>
                     const markers = <?php echo json_encode($markers); ?>;
                 </script>

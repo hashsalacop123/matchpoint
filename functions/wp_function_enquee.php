@@ -36,8 +36,8 @@ function theme_enqueue_styles() {
     wp_enqueue_style('landing-page', get_template_directory_uri() . '/css/home-page.css');
     wp_enqueue_style('innerpages', get_template_directory_uri() . '/css/inner-pages.css');
     wp_enqueue_style('global-css', get_template_directory_uri() . '/css/style.css');
-    wp_enqueue_style('responsive', get_template_directory_uri() . '/css/responsive.css');
     wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
+        wp_enqueue_style('responsive', get_template_directory_uri() . '/css/responsive.css');
 
     // jQuery
     wp_enqueue_script('jquery');

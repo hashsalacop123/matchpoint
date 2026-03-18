@@ -64,13 +64,21 @@
           arrows: true,
           prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>',
           nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>',
+                responsive: [
+                {
+                    breakpoint: 768, // 👈 767 and below
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
         });
     }
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     var searchInput = document.getElementById('locationSearch');
     var cards = document.querySelectorAll('.marker-card');
 
-    // Stop script if search input or cards do not exist
     if (!searchInput || cards.length === 0) return;
 
     searchInput.addEventListener('input', function () {
@@ -78,18 +86,15 @@
 
         cards.forEach(function (card) {
             var titleEl = card.querySelector('.card-title');
-            var textEl = card.querySelector('.card-text');
 
-            // Extra safety check
-            if (!titleEl || !textEl) return;
+            if (!titleEl) return;
 
             var title = titleEl.textContent.toLowerCase();
-            var text = textEl.textContent.toLowerCase();
 
             var wrapper = card.closest('.wrapper-area');
             if (!wrapper) return;
 
-            if (title.includes(searchValue) || text.includes(searchValue)) {
+            if (title.includes(searchValue)) {
                 wrapper.style.display = '';
             } else {
                 wrapper.style.display = 'none';
@@ -97,7 +102,6 @@
         });
     });
 });
-
 
 
     // Open modal
@@ -257,6 +261,8 @@ jQuery(document).ready(function ($) {
         $(this).toggleClass("on");
 
     });
+
+    
 
 
 })(jQuery);
